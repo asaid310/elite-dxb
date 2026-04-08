@@ -19,7 +19,7 @@ const brandLinks = [
 const navItems = [
   { label: "New Drops", href: "#trending" },
   { label: "Sneakers", href: "#sneakers" },
-  { label: "Streetwear", href: "#streetwear" },
+  { label: "Clothes", href: "#clothes" },
   { label: "Accessories", href: "#accessories" },
   { label: "Brands", href: "#brands", hasDropdown: true },
   { label: "Sale 🔥", href: "#sale" },
