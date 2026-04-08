@@ -3,13 +3,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const collections = [
-  { name: "Cole Buxton", image: "https://maresdxb.com/cdn/shop/files/1000067964.jpg?v=1747991991&width=1500" },
-  { name: "Chrome Hearts", image: "https://maresdxb.com/cdn/shop/files/1000067159.jpg?v=1747496931&width=1500" },
-  { name: "Essentials", image: "https://maresdxb.com/cdn/shop/files/1000067961.jpg?v=1747991256&width=1500" },
-  { name: "Burberry", image: "https://maresdxb.com/cdn/shop/files/1000067962.jpg?v=1747991474&width=1500" },
-  { name: "Gallery Dept", image: "https://maresdxb.com/cdn/shop/files/1000067963.jpg?v=1747991726&width=1500" },
-  { name: "Corteiz", image: "https://maresdxb.com/cdn/shop/files/1000067965.jpg?v=1747991916&width=1500" },
-  { name: "Synaworld", image: "https://maresdxb.com/cdn/shop/files/1000067960.jpg?v=1747990868&width=1500" },
+  { name: "Cole Buxton", image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=800&fit=crop" },
+  { name: "Chrome Hearts", image: "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=600&h=800&fit=crop" },
+  { name: "Essentials", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop" },
+  { name: "Burberry", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=800&fit=crop" },
+  { name: "Gallery Dept", image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=600&h=800&fit=crop" },
+  { name: "Corteiz", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=800&fit=crop" },
+  { name: "Synaworld", image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=800&fit=crop" },
 ];
 
 const BrandCollections = () => {

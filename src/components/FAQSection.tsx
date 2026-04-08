@@ -19,10 +19,6 @@ const faqs = [
     a: "All purchases are final. Please make sure to check sizing before ordering. If you have questions, contact us on WhatsApp!",
   },
   {
-    q: "Do you ship internationally?",
-    a: "Currently we ship across the entire GCC region — UAE, Saudi Arabia, Kuwait, Bahrain, Qatar, and Oman.",
-  },
-  {
     q: "How can I contact support?",
     a: "You can reach us anytime via WhatsApp. We usually reply within 10 minutes!",
   },

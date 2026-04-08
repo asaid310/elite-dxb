@@ -20,8 +20,8 @@ const tabs = [
     id: "trust",
     icon: ShieldCheck,
     label: "Trust",
-    title: "600+ Happy Customers",
-    description: "With 400+ returning customers and hundreds of 5-star reviews, we've built a community that trusts us. Your satisfaction is our priority. ⭐",
+    title: "Loved by Hundreds of Buyers",
+    description: "Our growing community of loyal customers keeps coming back. With countless 5-star ratings and repeat orders, your satisfaction speaks for itself. ⭐",
   },
   {
     id: "support",
@@ -39,7 +39,6 @@ const TrustBanner = () => {
   return (
     <section className="py-14 px-4">
       <div className="container mx-auto max-w-3xl">
-        {/* Tab buttons */}
         <div className="flex justify-center gap-2 sm:gap-3 mb-8 flex-wrap">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -61,7 +60,6 @@ const TrustBanner = () => {
           })}
         </div>
 
-        {/* Active tab content */}
         <div className="text-center animate-fade-in" key={current.id}>
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/15 text-primary mb-5">
             <current.icon className="w-7 h-7" />
