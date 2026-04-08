@@ -21,7 +21,7 @@ const Footer = () => {
           </div>
 
           {[
-            { title: "Shop", links: ["Sneakers", "Streetwear", "Accessories", "New Drops", "Sale"] },
+            { title: "Shop", links: ["Sneakers", "Clothes", "Accessories", "New Drops", "Sale"] },
             { title: "Help", links: ["Sizing Guide", "Shipping", "Returns", "FAQ", "Contact"] },
             { title: "Company", links: ["About Us", "Authenticity", "Reviews", "Blog"] },
           ].map((col) => (
