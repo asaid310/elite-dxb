@@ -1,28 +1,38 @@
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { getTrendingProducts } from "@/data/products";
 
 const TrendingSection = () => {
   const products = getTrendingProducts();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.offsetWidth * 0.6;
+    scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
   return (
-    <section id="trending" className="py-24 px-4">
-      <div className="container mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
-          <div>
-            <span className="text-sm font-bold text-primary uppercase tracking-widest">What's Hot</span>
-            <h2 className="text-4xl sm:text-5xl font-heading font-bold mt-2">Trending Now 🔥</h2>
+    <section id="trending" className="py-14 px-0">
+      <div className="container mx-auto px-4 mb-6 flex items-end justify-between">
+        <h2 className="text-2xl sm:text-3xl font-heading font-bold">New Arrivals</h2>
+        <div className="hidden sm:flex gap-2">
+          <button onClick={() => scroll("left")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button onClick={() => scroll("right")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory">
+        {products.map((product) => (
+          <div key={product.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
+            <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
           </div>
-          <a href="#brands" className="text-sm text-secondary font-medium hover:underline underline-offset-4">
-            View all products →
-          </a>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product, index) => (
-            <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
-            </div>
-          ))}
-        </div>
+        ))}
       </div>
     </section>
   );
