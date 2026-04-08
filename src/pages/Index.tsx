@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoryBanner from "@/components/CategoryBanner";
@@ -6,18 +7,24 @@ import BrandsSection from "@/components/BrandsSection";
 import DealsBanner from "@/components/DealsBanner";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import SearchOverlay from "@/components/SearchOverlay";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar onSearchOpen={() => setSearchOpen(true)} />
       <HeroSection />
-      <CategoryBanner />
       <TrendingSection />
+      <CategoryBanner />
       <BrandsSection />
       <DealsBanner />
       <Footer />
       <CartDrawer />
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <WhatsAppButton />
     </div>
   );
 };

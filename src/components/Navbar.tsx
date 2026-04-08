@@ -12,7 +12,11 @@ const navItems = [
   { label: "Sale 🔥", href: "#sale" },
 ];
 
-const Navbar = () => {
+interface NavbarProps {
+  onSearchOpen?: () => void;
+}
+
+const Navbar = ({ onSearchOpen }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems, setIsOpen: setCartOpen } = useCart();
   const navigate = useNavigate();
@@ -26,17 +30,17 @@ const Navbar = () => {
             <MapPin className="w-3 h-3" />
             <span>🇦🇪 UAE · AED (د.إ)</span>
           </div>
-          <span>Free delivery on orders over 200 د.إ</span>
+          <span className="hidden sm:inline">Free delivery on orders over 200 د.إ</span>
         </div>
       </div>
 
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
-        <a href="/" className="text-xl font-heading font-bold text-foreground tracking-tight">
+        <a href="/" className="text-lg sm:text-xl font-heading font-bold text-foreground tracking-tight">
           DRIP.DEALS
         </a>
 
         {/* Desktop nav: brand links */}
-        <div className="hidden md:flex items-center gap-6 overflow-x-auto">
+        <div className="hidden lg:flex items-center gap-5 overflow-x-auto">
           {brands.slice(0, 8).map((brand) => (
             <button
               key={brand}
@@ -48,8 +52,11 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
-          <button className="p-2 text-muted-foreground hover:text-foreground transition-colors">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            onClick={onSearchOpen}
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
             <Search className="w-5 h-5" />
           </button>
           <button
@@ -64,7 +71,7 @@ const Navbar = () => {
             )}
           </button>
           <button
-            className="md:hidden p-2 text-muted-foreground"
+            className="lg:hidden p-2 text-muted-foreground"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -73,7 +80,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-slide-up">
+        <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-slide-up max-h-[70vh] overflow-y-auto">
           <div className="flex flex-col p-4 gap-3">
             {navItems.map((item) => (
               <a
