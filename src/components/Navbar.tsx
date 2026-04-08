@@ -1,11 +1,22 @@
 import { useState } from "react";
-import { ShoppingBag, Menu, X, Search } from "lucide-react";
+import { ShoppingBag, Menu, X, Search, MapPin } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80">
+      {/* Top bar */}
+      <div className="border-b border-border/30 bg-muted/30">
+        <div className="container mx-auto flex items-center justify-between py-1.5 px-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <MapPin className="w-3 h-3" />
+            <span>🇦🇪 UAE · AED (د.إ)</span>
+          </div>
+          <span>Free delivery on orders over 200 د.إ</span>
+        </div>
+      </div>
+
       <div className="container mx-auto flex items-center justify-between py-4 px-4">
         <a href="#" className="text-2xl font-heading font-bold text-gradient">
           DRIP.DEALS
