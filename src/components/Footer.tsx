@@ -23,7 +23,7 @@ const Footer = () => {
           {[
             { title: "Shop", links: ["Sneakers", "Clothes", "Accessories", "New Drops", "Sale"] },
             { title: "Help", links: ["Sizing Guide", "Shipping", "Returns", "FAQ", "Contact"] },
-            { title: "Company", links: ["About Us", "Authenticity", "Reviews", "Blog"] },
+            { title: "Company", links: ["About Us", "Reviews", "Blog"] },
           ].map((col) => (
             <div key={col.title}>
               <h4 className="font-heading font-semibold text-foreground mb-4">{col.title}</h4>
@@ -42,7 +42,7 @@ const Footer = () => {
 
         <div className="border-t border-border/50 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">© 2026 DRIP.DEALS — All rights reserved.</p>
-          <p className="text-xs text-muted-foreground">100% Authentic Products Guaranteed ✅</p>
+          <p className="text-xs text-muted-foreground">Best Deals on Branded Fashion 💧</p>
         </div>
       </div>
     </footer>
