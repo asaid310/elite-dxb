@@ -3,13 +3,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const collections = [
-  { name: "Cole Buxton", image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=800&fit=crop" },
-  { name: "Chrome Hearts", image: "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=600&h=800&fit=crop" },
-  { name: "Essentials", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop" },
-  { name: "Burberry", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=800&fit=crop" },
-  { name: "Gallery Dept", image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=600&h=800&fit=crop" },
-  { name: "Corteiz", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=800&fit=crop" },
-  { name: "Synaworld", image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=800&fit=crop" },
+  { name: "Cole Buxton", image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&h=800&fit=crop" }, // minimal gym tee, neutral tones
+  { name: "Chrome Hearts", image: "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&h=800&fit=crop" }, // silver rings/jewelry dark aesthetic
+  { name: "Essentials", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop" }, // oversized hoodie neutral tones
+  { name: "Burberry", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop" }, // trench coat classic style
+  { name: "Gallery Dept", image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&h=800&fit=crop" }, // paint splatter artistic denim
+  { name: "Corteiz", image: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&h=800&fit=crop" }, // urban cargo streetwear
+  { name: "Synaworld", image: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=600&h=800&fit=crop" }, // dark techwear aesthetic
 ];
 
 const BrandCollections = () => {
