@@ -14,25 +14,44 @@ export interface Product {
 
 const products: Product[] = [
   // ===== SNEAKERS — Golden Goose =====
-  { id: "gg-1", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/4CC8C7C4-D064-4227-8688-13BD861BD242.webp?v=1775504504&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44"], description: "Premium Golden Goose sneakers with signature distressed finish." },
-  { id: "gg-2", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/6782DD4A-6B0C-4F21-8CC0-9F1701EE10F6.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-3", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1CC21C96-946A-415F-B2F5-638ADB9F72A7.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-4", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/C93FAE3C-5EC0-412D-B0CF-901A53E081FC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-5", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/BB37F964-DE93-4F40-A869-8641BAE08D5F.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-6", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/259EC7AC-3A8E-4AF1-8E1E-935562E1647A.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-7", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/76BE72BD-CD76-4FCB-AFA4-E9C28A71B8A2.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-8", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/73A04651-F2C0-47CB-9612-1D2B1A7668DC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-9", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/B25009BE-E8DD-41DD-B0A7-346D30ED0957.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
-  { id: "gg-10", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/E41F5D77-CB47-43F0-A0F4-1B3F728A7AFC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"], description: "Golden Goose sneakers." },
+  { id: "gg-1", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/4CC8C7C4-D064-4227-8688-13BD861BD242.webp?v=1775504504&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-2", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/6782DD4A-6B0C-4F21-8CC0-9F1701EE10F6.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-3", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1CC21C96-946A-415F-B2F5-638ADB9F72A7.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-4", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/C93FAE3C-5EC0-412D-B0CF-901A53E081FC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-5", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/BB37F964-DE93-4F40-A869-8641BAE08D5F.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-6", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/259EC7AC-3A8E-4AF1-8E1E-935562E1647A.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-7", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/76BE72BD-CD76-4FCB-AFA4-E9C28A71B8A2.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-8", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/73A04651-F2C0-47CB-9612-1D2B1A7668DC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-9", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/B25009BE-E8DD-41DD-B0A7-346D30ED0957.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "gg-10", name: "Golden Goose", brand: "Golden Goose", category: "sneakers", originalPrice: 399.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/E41F5D77-CB47-43F0-A0F4-1B3F728A7AFC.webp?v=1774311706&width=800", sizes: ["39","40","41","42","43","44"] },
 
   // ===== SNEAKERS — Nike =====
-  { id: "af1-white", name: "AF1 White", brand: "Nike", category: "sneakers", originalPrice: 199.99, salePrice: 129.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_25.webp?v=1744715032&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44","45"], description: "Classic Nike Air Force 1 in triple white." },
-  { id: "af1-black", name: "AF1 Black", brand: "Nike", category: "sneakers", originalPrice: 199.99, salePrice: 129.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_26_d6526682-3ae6-44ac-b74f-1e4cca43ed9a.webp?v=1744715061&width=800", sizes: ["39","40","41","42","43","44","45"], description: "Classic Nike Air Force 1 in all black." },
+  { id: "af1-white", name: "AF1 White", brand: "Nike", category: "sneakers", originalPrice: 199.99, salePrice: 129.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_25.webp?v=1744715032&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44","45"] },
+  { id: "af1-black", name: "AF1 Black", brand: "Nike", category: "sneakers", originalPrice: 199.99, salePrice: 129.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_26_d6526682-3ae6-44ac-b74f-1e4cca43ed9a.webp?v=1744715061&width=800", sizes: ["39","40","41","42","43","44","45"] },
 
   // ===== SNEAKERS — Adidas =====
-  { id: "adidas-campus-1", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_40.webp?v=1744738678&width=800", tag: "Trending", sizes: ["39","40","41","42","43","44"], description: "Adidas Campus sneakers with suede upper." },
-  { id: "adidas-campus-2", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/BC6F089E-8E15-4CA4-91DA-D73C060D8403.png?v=1744843112&width=800", sizes: ["39","40","41","42","43","44"], description: "Adidas Campus sneakers." },
-  { id: "adidas-campus-3", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_43.webp?v=1744740139&width=800", tag: "New", sizes: ["39","40","41","42","43","44"], description: "Adidas Campus sneakers." },
+  { id: "adidas-campus-1", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_40.webp?v=1744738678&width=800", tag: "Trending", sizes: ["39","40","41","42","43","44"] },
+  { id: "adidas-campus-2", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/BC6F089E-8E15-4CA4-91DA-D73C060D8403.png?v=1744843112&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "adidas-campus-3", name: "Adidas Campus", brand: "Adidas", category: "sneakers", originalPrice: 189.99, salePrice: 124.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_43.webp?v=1744740139&width=800", tag: "New", sizes: ["39","40","41","42","43","44"] },
+
+  // ===== SNEAKERS — Dior =====
+  { id: "dior-b30-white", name: "Dior B30 White", brand: "Dior", category: "sneakers", originalPrice: 395.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/9C1F99E0-4FB3-457A-9017-18B3847E8157.png?v=1739374077&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44","45"] },
+  { id: "dior-b30-bw", name: "Dior B30 Black & White", brand: "Dior", category: "sneakers", originalPrice: 395.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/AA7A7EBB-EE1E-47CB-B251-48B1688C06EA.png?v=1739374138&width=800", tag: "Trending", sizes: ["39","40","41","42","43","44","45"] },
+  { id: "dior-b30-black", name: "Dior B30 Full Black", brand: "Dior", category: "sneakers", originalPrice: 395.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/7491D92D-9552-45BB-948A-D3B11AD19003.png?v=1739356545&width=800", sizes: ["39","40","41","42","43","44","45"] },
+  { id: "dior-b30-grey", name: "Dior B30 Grey", brand: "Dior", category: "sneakers", originalPrice: 395.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/51D1A665-C684-4BF2-A559-CEA6049ACCB1.png?v=1739356505&width=800", sizes: ["39","40","41","42","43","44","45"] },
+  { id: "dior-b22-1", name: "Dior B22", brand: "Dior", category: "sneakers", originalPrice: 309.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_45.webp?v=1744841244&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "dior-b22-2", name: "Dior B22", brand: "Dior", category: "sneakers", originalPrice: 309.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_44_ce52bd26-7ae2-447b-a86a-93e6db3bc1ad.webp?v=1744841142&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "dior-sandal-1", name: "Dior Sandal", brand: "Dior", category: "sneakers", originalPrice: 359.99, salePrice: 269.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_13_352d64e7-ca23-4a04-9456-482ca13006b3.webp?v=1747074368&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "dior-sandal-2", name: "Dior Sandal", brand: "Dior", category: "sneakers", originalPrice: 359.99, salePrice: 269.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_14_74a443ff-3d80-414c-86f2-9cc14f96f2a6.webp?v=1747074511&width=800", sizes: ["39","40","41","42","43","44"] },
+
+  // ===== SNEAKERS — Amiri =====
+  { id: "amiri-shoes-1", name: "Amiri Shoes", brand: "Amiri", category: "sneakers", originalPrice: 224.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_30.webp?v=1744721152&width=800", tag: "Hot 🔥", sizes: ["39","40","41","42","43","44"] },
+  { id: "amiri-shoes-2", name: "Amiri Shoes", brand: "Amiri", category: "sneakers", originalPrice: 224.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_33.webp?v=1744721210&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "amiri-shoes-3", name: "Amiri Shoes", brand: "Amiri", category: "sneakers", originalPrice: 224.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_32.webp?v=1744721308&width=800", sizes: ["39","40","41","42","43","44"] },
+  { id: "amiri-shoes-4", name: "Amiri Shoes", brand: "Amiri", category: "sneakers", originalPrice: 224.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_31.webp?v=1744721561&width=800", sizes: ["39","40","41","42","43","44"] },
+
+  // ===== SNEAKERS — Birkenstock =====
+  { id: "birkenstock-1", name: "Birkenstock", brand: "Birkenstock", category: "sneakers", originalPrice: 199.99, salePrice: 139.99, imageUrl: "https://maresdxb.com/cdn/shop/collections/rn-image_picker_lib_temp_d0f9e51f-b655-4499-8a7d-6fbcabc83a62.webp?v=1763811664&width=800", tag: "New", sizes: ["38","39","40","41","42","43","44"] },
 
   // ===== CLOTHES — Acne Studios =====
   { id: "acne-ls-1", name: "Acne Studios Long Sleeve", brand: "Acne Studios", category: "clothes", originalPrice: 299.99, salePrice: 179.99, imageUrl: "https://maresdxb.com/cdn/shop/files/06F2EAA2-4FB3-48E5-B72A-B94B1F030B7C.webp?v=1774738955&width=800", tag: "Hot 🔥", sizes: ["S","M","L","XL"] },
@@ -116,15 +135,77 @@ const products: Product[] = [
   { id: "ami-sweater-19", name: "Ami Paris Sweater", brand: "AMI", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/D4B19050-8070-4434-93BA-5AD580BBC679.jpg?v=1768942444&width=800", sizes: ["S","M","L"] },
   { id: "ami-sweater-20", name: "Ami Paris Sweater", brand: "AMI", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/074AF536-1807-4C71-8001-1EF72AC17B02.jpg?v=1769026043&width=800", sizes: ["S","M","L","XL"] },
 
-  // ===== CLOTHES — Other Brands =====
+  // ===== CLOTHES — Amiri =====
+  { id: "amiri-jeans-1", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/9297F62D-8968-45F5-8CD3-801F6D609897.jpg?v=1769115381&width=800", tag: "Hot 🔥", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-2", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/BFE360B0-DBB6-40A6-AC54-C96D4A2C340D.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-3", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/B42C8215-09EB-4841-9C7B-DD5A2CDD81BA.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-4", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/206E6F83-CC13-40FC-81BE-A42818274D01.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-5", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/E227DDA5-98C2-441D-B2B2-EB165BBCB390.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-6", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/A968E10F-F757-49C1-9D46-F3217F5737B0.jpg?v=1769115382&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-7", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/DCAE5DBC-F873-47CE-8B45-F5D5FAB8A1CC.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-8", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1D177447-C910-48E3-90C6-5D0E4C672EE6.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-9", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/7D8C3972-684B-435E-8CFF-6D0CDF1B8E4F.jpg?v=1769115381&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-jeans-10", name: "Amiri Jeans", brand: "Amiri", category: "clothes", originalPrice: 229.99, salePrice: 174.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1493813C-6BAD-495E-9149-3EB3F0BCEE91.jpg?v=1769115382&width=800", sizes: ["28","30","32","34","36"] },
+  { id: "amiri-tee-1", name: "Amiri Tee", brand: "Amiri", category: "clothes", originalPrice: 209.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/90FB7B6B-1EBD-4E11-AA27-E6BB977BE045.jpg?v=1769116731&width=800", tag: "Trending", sizes: ["S","M","L","XL"] },
+  { id: "amiri-tee-2", name: "Amiri Tee", brand: "Amiri", category: "clothes", originalPrice: 209.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/96512A22-893A-47E1-ADBD-60664F71FD9B.jpg?v=1769116731&width=800", sizes: ["S","M","L","XL"] },
+  { id: "amiri-tee-3", name: "Amiri Tee", brand: "Amiri", category: "clothes", originalPrice: 209.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/B171FE8F-B146-4960-BB36-6A77A7685DF1.jpg?v=1769116731&width=800", sizes: ["S","M","L","XL"] },
+  { id: "amiri-tee-4", name: "Amiri Tee", brand: "Amiri", category: "clothes", originalPrice: 209.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/395E0F25-01EE-4CBB-87D2-305B4C87EE34.jpg?v=1769116731&width=800", sizes: ["S","M","L","XL"] },
+  { id: "amiri-tee-5", name: "Amiri Tee", brand: "Amiri", category: "clothes", originalPrice: 209.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/666331C3-58B3-4CB6-85EA-733D1A8631A2.jpg?v=1769116732&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Dior =====
+  { id: "dior-tee", name: "Dior Stone Island Tee", brand: "Dior", category: "clothes", originalPrice: 164.99, salePrice: 164.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download.webp?v=1738494724&width=800", sizes: ["S","M","L","XL"] },
+  { id: "dior-sweater", name: "Dior Sweater", brand: "Dior", category: "clothes", originalPrice: 234.99, salePrice: 234.99, imageUrl: "https://maresdxb.com/cdn/shop/files/IMG-20250113-WA0015.jpg?v=1738494768&width=800", tag: "New", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Essentials =====
   { id: "essentials-hoodie", name: "Essentials Hoodie", brand: "Essentials", category: "clothes", originalPrice: 349.99, salePrice: 199.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000048623_300x300.png?v=1744118304", tag: "Trending", sizes: ["S","M","L","XL"] },
+  { id: "essentials-short", name: "Essentials Short", brand: "Essentials", category: "clothes", originalPrice: 199.99, salePrice: 149.99, imageUrl: "https://maresdxb.com/cdn/shop/files/IMG_0867.jpg?v=1740341052&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Cole Buxton =====
   { id: "cole-buxton-set", name: "Cole Buxton Set", brand: "Cole Buxton", category: "clothes", originalPrice: 449.99, salePrice: 279.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067964.jpg?v=1747991991&width=800", tag: "New", sizes: ["S","M","L","XL"] },
+  { id: "cole-buxton-shorts", name: "Cole Buxton Shorts", brand: "Cole Buxton", category: "clothes", originalPrice: 249.99, salePrice: 179.99, imageUrl: "https://maresdxb.com/cdn/shop/files/383D290E-2CE9-4F75-A818-09541F63D723_720x728_3c850fcd-d425-4768-ba3d-266750500d81.jpg?v=1744129848&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Corteiz =====
   { id: "corteiz-set", name: "Corteiz Set", brand: "Corteiz", category: "clothes", originalPrice: 399.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067965.jpg?v=1747991916&width=800", tag: "Trending", sizes: ["S","M","L","XL"] },
+  { id: "corteiz-hoodie", name: "Corteiz 4 Star Hoodie", brand: "Corteiz", category: "clothes", originalPrice: 349.99, salePrice: 229.99, imageUrl: "https://maresdxb.com/cdn/shop/files/A11CCDEA-6847-4406-ACB9-7CA70EDF9183_1296x1296_4be9dfb6-f73c-43c9-9664-90044a8d5001.jpg?v=1738493772&width=800", sizes: ["S","M","L","XL"] },
+  { id: "corteiz-tee", name: "Corteiz Tee", brand: "Corteiz", category: "clothes", originalPrice: 199.99, salePrice: 139.99, imageUrl: "https://maresdxb.com/cdn/shop/files/OGMarket_CorteizNoTime4LuvTee_White-NewBlack.jpg?v=1747077360&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Synaworld =====
   { id: "synaworld-set", name: "Synaworld Set", brand: "Synaworld", category: "clothes", originalPrice: 379.99, salePrice: 229.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067960.jpg?v=1747990868&width=800", tag: "Trending", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Gallery Dept =====
   { id: "gallery-dept", name: "Gallery Dept Piece", brand: "Gallery Dept", category: "clothes", originalPrice: 499.99, salePrice: 329.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067963.jpg?v=1747991726&width=800", tag: "Hot 🔥", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Chrome Hearts =====
   { id: "chrome-hearts-tee", name: "Chrome Hearts Tee", brand: "Chrome Hearts", category: "clothes", originalPrice: 399.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067159.jpg?v=1747496931&width=800", tag: "Limited", sizes: ["S","M","L","XL"] },
-  { id: "burberry-piece", name: "Burberry Piece", brand: "Burberry", category: "clothes", originalPrice: 499.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000048630_300x300.jpg?v=1744118527", tag: "Luxury", sizes: ["S","M","L","XL"] },
-  { id: "bundle-8", name: "Bundle of 8", brand: "Mares", category: "clothes", originalPrice: 229.96, salePrice: 154.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000048623_300x300.png?v=1744118304", tag: "Deal", sizes: ["S","M","L","XL"] },
+  { id: "chrome-hearts-shirt", name: "Chrome Hearts Sport Shirt", brand: "Chrome Hearts", category: "clothes", originalPrice: 399.99, salePrice: 269.99, imageUrl: "https://maresdxb.com/cdn/shop/files/F375AA11-BB55-40BF-A43F-EC2B0908AE42.webp?v=1771235270&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Burberry =====
+  { id: "burberry-piece", name: "Burberry Piece", brand: "Burberry", category: "clothes", originalPrice: 499.99, salePrice: 299.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000067962.jpg?v=1747991474&width=800", tag: "Luxury", sizes: ["S","M","L","XL"] },
+  { id: "burberry-polo", name: "Burberry Polo", brand: "Burberry", category: "clothes", originalPrice: 349.99, salePrice: 229.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_18.webp?v=1744140698&width=800", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Bape =====
+  { id: "bape-tee-1", name: "Bape Tee", brand: "Bape", category: "clothes", originalPrice: 249.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/rn-image_picker_lib_temp_325227c7-8bd4-4449-939b-bc931986aed2.jpg?v=1755103585&width=800", tag: "Trending", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Broken Planet =====
+  { id: "broken-planet-hoodie", name: "Broken Planet Hoodie", brand: "Broken Planet", category: "clothes", originalPrice: 349.99, salePrice: 219.99, imageUrl: "https://maresdxb.com/cdn/shop/files/929A70B7-B118-487E-A391-15871C56B0B8.jpg?v=1769667030&width=800", tag: "New", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Casablanca =====
+  { id: "casablanca-tee", name: "Casablanca Tee", brand: "Casablanca", category: "clothes", originalPrice: 279.99, salePrice: 189.99, imageUrl: "https://maresdxb.com/cdn/shop/files/ADC371E3-FAF2-42D1-AB5B-D103D07062F1.jpg?v=1772184294&width=800", tag: "New", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Comme des Garcons =====
+  { id: "cdg-tee", name: "Comme des Garcons Tee", brand: "Comme des Garcons", category: "clothes", originalPrice: 199.99, salePrice: 139.99, imageUrl: "https://maresdxb.com/cdn/shop/files/download_17_36ecfb6e-1e87-4315-b6b0-653ce00a052b.webp?v=1749063307&width=800", tag: "Trending", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Denim Tears =====
+  { id: "denim-tears-hoodie", name: "Denim Tears Hoodie", brand: "Denim Tears", category: "clothes", originalPrice: 399.99, salePrice: 249.99, imageUrl: "https://maresdxb.com/cdn/shop/files/DenimTearsCottonWreathSweatshirt_700x700_0567a815-d5db-40d8-91c7-c759c9fa779c.png?v=1737034228&width=800", tag: "Hot 🔥", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Sp5der =====
+  { id: "sp5der-piece", name: "Sp5der Piece", brand: "Sp5der", category: "clothes", originalPrice: 349.99, salePrice: 219.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000048859_300x300.png?v=1744284150", tag: "Trending", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Stone Island =====
+  { id: "stone-island-piece", name: "Stone Island Piece", brand: "Stone Island", category: "clothes", originalPrice: 399.99, salePrice: 269.99, imageUrl: "https://maresdxb.com/cdn/shop/files/1000048628_300x300.png?v=1744118402", tag: "Hot 🔥", sizes: ["S","M","L","XL"] },
+
+  // ===== CLOTHES — Chief Keef =====
+  { id: "chief-keef-polo", name: "Chief Keef Polo", brand: "Chief Keef", category: "clothes", originalPrice: 249.99, salePrice: 169.99, imageUrl: "https://maresdxb.com/cdn/shop/files/rn-image_picker_lib_temp_cbd3e83e-a053-4753-b0d0-a3c6a43128a5.webp?v=1768728314&width=800", sizes: ["S","M","L","XL"] },
 
   // ===== ACCESSORIES =====
   { id: "goyard-card-holder", name: "Goyard Card Holder", brand: "Goyard", category: "accessories", originalPrice: 189.99, salePrice: 139.99, imageUrl: "https://maresdxb.com/cdn/shop/files/144DA556-9CEC-4DB9-8677-C211F8A24DDA_540x540_8e13f771-139f-4f34-8a26-c02ecda8eb9e_700x.jpg?v=1738489244", tag: "Deal", sizes: ["One Size"] },
@@ -138,7 +219,7 @@ export const getProductById = (id: string) => products.find((p) => p.id === id);
 export const getProductsByCategory = (category: Product["category"]) => products.filter((p) => p.category === category);
 export const getProductsByBrand = (brand: string) => products.filter((p) => p.brand === brand);
 export const getAllBrands = () => [...new Set(products.map((p) => p.brand))];
-export const getTrendingProducts = () => products.filter((p) => p.tag).slice(0, 8);
+export const getTrendingProducts = () => products.filter((p) => p.tag).slice(0, 12);
 export const searchProducts = (query: string) => {
   const q = query.toLowerCase();
   return products.filter((p) =>

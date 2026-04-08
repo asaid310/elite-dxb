@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <h3 className="text-2xl font-heading font-bold text-gradient mb-4">DRIP.DEALS</h3>
             <p className="text-sm text-muted-foreground">
-              Authentic branded fashion for less. Real drip, real savings. 💧
+              Branded fashion for less. Real drip, real savings. 💧
             </p>
             <div className="flex gap-3 mt-6">
               <a href="#" className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary transition-colors">
@@ -23,7 +23,7 @@ const Footer = () => {
           {[
             { title: "Shop", links: ["Sneakers", "Clothes", "Accessories", "New Drops", "Sale"] },
             { title: "Help", links: ["Sizing Guide", "Shipping", "Returns", "FAQ", "Contact"] },
-            { title: "Company", links: ["About Us", "Authenticity", "Reviews", "Blog"] },
+            { title: "Company", links: ["About Us", "Reviews", "Blog"] },
           ].map((col) => (
             <div key={col.title}>
               <h4 className="font-heading font-semibold text-foreground mb-4">{col.title}</h4>
@@ -42,7 +42,7 @@ const Footer = () => {
 
         <div className="border-t border-border/50 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">© 2026 DRIP.DEALS — All rights reserved.</p>
-          <p className="text-xs text-muted-foreground">100% Authentic Products Guaranteed ✅</p>
+          <p className="text-xs text-muted-foreground">Best Deals on Branded Fashion 💧</p>
         </div>
       </div>
     </footer>
