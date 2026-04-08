@@ -1,43 +1,33 @@
-import { useState } from "react";
-import ProductCard from "./ProductCard";
-import products, { getAllBrands, getProductsByBrand } from "@/data/products";
-
-const brands = ["All", ...getAllBrands()];
+import { useNavigate } from "react-router-dom";
+import { getAllBrands, getProductsByBrand } from "@/data/products";
 
 const BrandsSection = () => {
-  const [activeBrand, setActiveBrand] = useState("All");
-  const displayProducts = activeBrand === "All" ? products.slice(0, 12) : getProductsByBrand(activeBrand);
+  const navigate = useNavigate();
+  const brands = getAllBrands();
 
   return (
-    <section id="brands" className="py-24 px-4">
+    <section id="brands" className="py-14 px-4">
       <div className="container mx-auto">
-        <div className="mb-10">
-          <span className="text-sm font-bold text-primary uppercase tracking-widest">Shop by Brand</span>
-          <h2 className="text-4xl sm:text-5xl font-heading font-bold mt-2">Top Brands ✨</h2>
-        </div>
+        <h2 className="text-2xl sm:text-3xl font-heading font-bold mb-8">Shop by Brand</h2>
 
-        <div className="flex flex-wrap gap-2 mb-10">
-          {brands.map((brand) => (
-            <button
-              key={brand}
-              onClick={() => setActiveBrand(brand)}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                activeBrand === brand
-                  ? "bg-gradient-hero text-primary-foreground glow-primary scale-105"
-                  : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
-              }`}
-            >
-              {brand}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayProducts.map((product, index) => (
-            <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.08}s` }}>
-              <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {brands.map((brand) => {
+            const count = getProductsByBrand(brand).length;
+            return (
+              <button
+                key={brand}
+                onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
+                className="group relative rounded-xl border border-border/50 bg-card hover:border-primary/40 transition-all p-5 text-left"
+              >
+                <span className="text-base font-heading font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {brand}
+                </span>
+                <span className="block text-xs text-muted-foreground mt-1">
+                  {count} item{count !== 1 ? "s" : ""}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
