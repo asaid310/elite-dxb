@@ -4,9 +4,9 @@ import ProductCard from "./ProductCard";
 import { getProductsByCategory } from "@/data/products";
 
 const categories = [
-  { id: "sneakers", title: "Sneakers", category: "sneakers" as const },
-  { id: "clothes", title: "Clothes", category: "clothes" as const },
-  { id: "accessories", title: "Accessories", category: "accessories" as const },
+  { id: "sneakers", title: "Kicks 👟", category: "sneakers" as const },
+  { id: "clothes", title: "Fits 🧥", category: "clothes" as const },
+  { id: "accessories", title: "Drip Extras 💎", category: "accessories" as const },
 ];
 
 const CategoryRow = ({ id, title, category }: typeof categories[number]) => {
