@@ -16,7 +16,7 @@ const TrendingSection = () => {
   return (
     <section id="trending" className="py-14 px-0">
       <div className="container mx-auto px-4 mb-6 flex items-end justify-between">
-        <h2 className="text-2xl sm:text-3xl font-heading font-bold">New Arrivals</h2>
+        <h2 className="text-2xl sm:text-3xl font-heading font-bold">Trending Now 🔥</h2>
         <div className="hidden sm:flex gap-2">
           <button onClick={() => scroll("left")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft className="w-4 h-4" />
