@@ -1,5 +1,6 @@
 import { Heart, ShoppingBag, ImageIcon } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   name: string;
@@ -14,7 +15,20 @@ interface ProductCardProps {
 
 const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, currency = "د.إ", sizes }: ProductCardProps) => {
   const [liked, setLiked] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || "");
+  const { addItem } = useCart();
   const discount = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
+
+  const handleAddToCart = () => {
+    addItem({
+      id: `${name}-${brand}-${selectedSize}-${salePrice}`,
+      name,
+      brand,
+      price: salePrice,
+      imageUrl,
+      size: selectedSize || undefined,
+    });
+  };
 
   return (
     <div className="group relative rounded-2xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300 hover:-translate-y-1">
@@ -42,7 +56,10 @@ const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, cur
           >
             <Heart className={`w-5 h-5 ${liked ? "fill-primary text-primary" : "text-foreground"}`} />
           </button>
-          <button className="p-3 rounded-full bg-gradient-hero text-primary-foreground glow-primary hover:scale-110 transition-transform">
+          <button
+            onClick={handleAddToCart}
+            className="p-3 rounded-full bg-gradient-hero text-primary-foreground glow-primary hover:scale-110 transition-transform"
+          >
             <ShoppingBag className="w-5 h-5" />
           </button>
         </div>
@@ -54,9 +71,17 @@ const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, cur
         {sizes && sizes.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {sizes.map((size) => (
-              <span key={size} className="px-2 py-0.5 text-[10px] font-semibold rounded bg-muted text-muted-foreground">
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`px-2 py-0.5 text-[10px] font-semibold rounded transition-colors ${
+                  selectedSize === size
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
                 {size}
-              </span>
+              </button>
             ))}
           </div>
         )}

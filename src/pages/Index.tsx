@@ -5,6 +5,7 @@ import TrendingSection from "@/components/TrendingSection";
 import BrandsSection from "@/components/BrandsSection";
 import DealsBanner from "@/components/DealsBanner";
 import Footer from "@/components/Footer";
+import CartDrawer from "@/components/CartDrawer";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <BrandsSection />
       <DealsBanner />
       <Footer />
+      <CartDrawer />
     </div>
   );
 };
