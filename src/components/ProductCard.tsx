@@ -1,8 +1,10 @@
 import { Heart, ShoppingBag, ImageIcon } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
+  id?: string;
   name: string;
   brand: string;
   originalPrice: number;
@@ -13,25 +15,33 @@ interface ProductCardProps {
   sizes?: string[];
 }
 
-const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, currency = "د.إ", sizes }: ProductCardProps) => {
+const ProductCard = ({ id, name, brand, originalPrice, salePrice, imageUrl, tag, currency = "د.إ", sizes }: ProductCardProps) => {
   const [liked, setLiked] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || "");
   const { addItem } = useCart();
+  const navigate = useNavigate();
   const discount = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
     addItem({
-      id: `${name}-${brand}-${selectedSize}-${salePrice}`,
+      id: `${id || name}-${brand}-${sizes?.[0] || "default"}-${salePrice}`,
       name,
       brand,
       price: salePrice,
       imageUrl,
-      size: selectedSize || undefined,
+      size: sizes?.[0] || undefined,
     });
   };
 
+  const handleClick = () => {
+    if (id) navigate(`/product/${id}`);
+  };
+
   return (
-    <div className="group relative rounded-2xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300 hover:-translate-y-1">
+    <div
+      onClick={handleClick}
+      className={`group relative rounded-2xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 ${id ? "cursor-pointer" : ""}`}
+    >
       <div className="relative aspect-square overflow-hidden bg-muted/20 border-b border-dashed border-border/50 flex items-center justify-center">
         {imageUrl ? (
           <img src={imageUrl} alt={name} className="w-full h-full object-cover" loading="lazy" />
@@ -51,7 +61,7 @@ const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, cur
         </span>
         <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
           <button
-            onClick={() => setLiked(!liked)}
+            onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
             className="p-3 rounded-full bg-card border border-border hover:border-primary transition-colors"
           >
             <Heart className={`w-5 h-5 ${liked ? "fill-primary text-primary" : "text-foreground"}`} />
@@ -70,19 +80,14 @@ const ProductCard = ({ name, brand, originalPrice, salePrice, imageUrl, tag, cur
         <h3 className="font-heading font-semibold text-foreground truncate">{name}</h3>
         {sizes && sizes.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
-            {sizes.map((size) => (
-              <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
-                className={`px-2 py-0.5 text-[10px] font-semibold rounded transition-colors ${
-                  selectedSize === size
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80"
-                }`}
-              >
+            {sizes.slice(0, 4).map((size) => (
+              <span key={size} className="px-2 py-0.5 text-[10px] font-semibold rounded bg-muted text-muted-foreground">
                 {size}
-              </button>
+              </span>
             ))}
+            {sizes.length > 4 && (
+              <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-muted text-muted-foreground">+{sizes.length - 4}</span>
+            )}
           </div>
         )}
         <div className="flex items-center gap-2 mt-2">
