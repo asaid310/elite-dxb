@@ -32,7 +32,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Brands horizontal scroll — like maresdxb nav but as pills */}
+      {/* Brands horizontal scroll */}
       <div className="border-y border-border/50 bg-card/50 backdrop-blur-sm">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex gap-1 px-4 py-3 min-w-max">

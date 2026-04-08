@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <h3 className="text-2xl font-heading font-bold text-gradient mb-4">DRIP.DEALS</h3>
             <p className="text-sm text-muted-foreground">
-              Authentic branded fashion for less. Real drip, real savings. 💧
+              Branded fashion for less. Real drip, real savings. 💧
             </p>
             <div className="flex gap-3 mt-6">
               <a href="#" className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary transition-colors">
