@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getAllBrands } from "@/data/products";
+import heroBg from "@/assets/hero-bg.jpeg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const HeroSection = () => {
       {/* Full-width hero banner */}
       <div className="relative w-full h-[70vh] min-h-[400px] max-h-[700px]">
         <div className="absolute inset-0 bg-gradient-to-br from-muted/60 via-muted/30 to-background" />
-        <div className="absolute inset-0 bg-[url('https://maresdxb.com/cdn/shop/files/vuraqs.jpg?v=1774996041&width=1920')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
 
