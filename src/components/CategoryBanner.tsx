@@ -5,7 +5,7 @@ import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { products, loading } = useShopifyProducts(50);
+  const { products, loading } = useShopifyProducts(250);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -17,32 +17,31 @@ const CategoryBanner = () => {
     <section className="py-10 space-y-12">
       <div>
         <div className="container mx-auto px-4 mb-4 flex items-end justify-between">
-          <h2 className="text-2xl sm:text-3xl font-heading font-bold">All Products 🛍️</h2>
+          <h2 className="text-xl sm:text-2xl font-heading font-bold">All Products 🛍️</h2>
           <div className="hidden sm:flex gap-2">
-            <button onClick={() => scroll("left")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
-              <ChevronLeft className="w-4 h-4" />
+            <button onClick={() => scroll("left")} className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <button onClick={() => scroll("right")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
-              <ChevronRight className="w-4 h-4" />
+            <button onClick={() => scroll("right")} className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {loading && (
-          <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <div className="flex justify-center py-8">
+            <Loader2 className="w-6 h-6 animate-spin text-primary" />
           </div>
         )}
 
-        <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory pb-2">
+        <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory pb-2">
           {!loading && products.length === 0 && (
             <div className="w-full text-center py-12 text-muted-foreground">
               <p className="text-lg font-medium">No products found</p>
-              <p className="text-sm mt-1">Products will appear here once added to your Shopify store.</p>
             </div>
           )}
           {products.map((product) => (
-            <div key={product.node.id} className="min-w-[120px] sm:min-w-[150px] snap-start flex-shrink-0">
+            <div key={product.node.id} className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0">
               <ProductCard shopifyProduct={product} />
             </div>
           ))}
