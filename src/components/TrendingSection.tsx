@@ -41,7 +41,7 @@ const TrendingSection = () => {
           </div>
         )}
         {products.map((product) => (
-          <div key={product.node.id} className="min-w-[150px] sm:min-w-[180px] snap-start flex-shrink-0">
+          <div key={product.node.id} className="min-w-[120px] sm:min-w-[150px] snap-start flex-shrink-0">
             <ProductCard shopifyProduct={product} />
           </div>
         ))}
