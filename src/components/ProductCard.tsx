@@ -69,11 +69,11 @@ const ProductCard = ({ shopifyProduct }: ProductCardProps) => {
         </div>
       </div>
 
-      <div className="p-3">
-        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{product.variants.edges[0]?.node.selectedOptions?.find(o => o.name === "Vendor")?.value || ""}</p>
-        <h3 className="font-heading font-semibold text-sm text-foreground truncate">{name}</h3>
-        <div className="flex items-center gap-1.5 mt-1">
-          <span className="text-sm font-bold text-primary">{price.toFixed(2)} {currency}</span>
+      <div className="p-2">
+        <p className="text-[9px] text-muted-foreground uppercase tracking-wider">{product.variants.edges[0]?.node.selectedOptions?.find(o => o.name === "Vendor")?.value || ""}</p>
+        <h3 className="font-heading font-semibold text-xs text-foreground truncate">{name}</h3>
+        <div className="flex items-center gap-1 mt-0.5">
+          <span className="text-xs font-bold text-primary">{price.toFixed(2)} {currency}</span>
         </div>
       </div>
     </div>

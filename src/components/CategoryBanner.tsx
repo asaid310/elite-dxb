@@ -42,7 +42,7 @@ const CategoryBanner = () => {
             </div>
           )}
           {products.map((product) => (
-            <div key={product.node.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
+            <div key={product.node.id} className="min-w-[150px] sm:min-w-[180px] snap-start flex-shrink-0">
               <ProductCard shopifyProduct={product} />
             </div>
           ))}
