@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
-            <h3 className="text-2xl font-heading font-bold text-gradient mb-4">DRIP.DEALS</h3>
+            <h3 className="text-2xl font-heading font-bold text-gradient mb-4">Elite-dxb</h3>
             <p className="text-sm text-muted-foreground">
               Branded fashion for less. Real drip, real savings. 💧
             </p>
