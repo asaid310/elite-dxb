@@ -37,7 +37,7 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
 
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
         <a href="/" className="text-lg sm:text-xl font-heading font-bold text-foreground tracking-tight">
-          DRIP.DEALS
+          Elite-dcb
         </a>
 
         {/* Desktop nav: brand links */}
