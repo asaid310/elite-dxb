@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { CartProvider } from "./contexts/CartContext";
+import { useCartSync } from "./hooks/useCartSync";
 import Index from "./pages/Index.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import BrandPage from "./pages/BrandPage.tsx";
@@ -11,10 +11,15 @@ import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
+const CartSyncWrapper = ({ children }: { children: React.ReactNode }) => {
+  useCartSync();
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CartProvider>
+      <CartSyncWrapper>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -26,7 +31,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </CartProvider>
+      </CartSyncWrapper>
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ShoppingBag, Menu, X, Search, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import { getAllBrands } from "@/data/products";
 
 const navItems = [
@@ -18,7 +18,8 @@ interface NavbarProps {
 
 const Navbar = ({ onSearchOpen }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { totalItems, setIsOpen: setCartOpen } = useCart();
+  const totalItemCount = useCartStore(state => state.totalItems)();
+  const setCartOpen = useCartStore(state => state.setIsOpen);
   const navigate = useNavigate();
   const brands = getAllBrands();
 
@@ -64,9 +65,9 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
             className="relative p-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ShoppingBag className="w-5 h-5" />
-            {totalItems > 0 && (
+            {totalItemCount > 0 && (
               <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">
-                {totalItems}
+                {totalItemCount}
               </span>
             )}
           </button>
