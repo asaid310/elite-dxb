@@ -13,6 +13,8 @@ const BrandCollections = () => {
     scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   };
 
+  const brands = getAllBrands();
+
   return (
     <section className="py-14">
       <div className="container mx-auto px-4 mb-6 flex items-end justify-between">
@@ -28,24 +30,30 @@ const BrandCollections = () => {
       </div>
 
       <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory">
-        {collections.map((col) => (
-          <button
-            key={col.name}
-            onClick={() => navigate(`/brand/${encodeURIComponent(col.name)}`)}
-            className="relative min-w-[260px] sm:min-w-[300px] h-[360px] rounded-2xl overflow-hidden snap-start flex-shrink-0 group"
-          >
-            <img
-              src={col.image}
-              alt={col.name}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <h3 className="text-lg font-heading font-bold text-foreground">{col.name}</h3>
-              <span className="text-sm text-primary font-medium">Buy now →</span>
-            </div>
-          </button>
-        ))}
+        {brands.map((brand) => {
+          const products = getProductsByBrand(brand);
+          const image = products[0]?.imageUrl;
+          return (
+            <button
+              key={brand}
+              onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
+              className="relative min-w-[260px] sm:min-w-[300px] h-[360px] rounded-2xl overflow-hidden snap-start flex-shrink-0 group"
+            >
+              {image && (
+                <img
+                  src={image}
+                  alt={brand}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3 className="text-lg font-heading font-bold text-foreground">{brand}</h3>
+                <span className="text-sm text-primary font-medium">Buy now →</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </section>
   );
