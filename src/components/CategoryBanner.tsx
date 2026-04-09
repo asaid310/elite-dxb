@@ -1,17 +1,11 @@
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import ProductCard from "./ProductCard";
-import { getProductsByCategory } from "@/data/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
-const categories = [
-  { id: "sneakers", title: "Kicks 👟", category: "sneakers" as const },
-  { id: "clothes", title: "Fits 🧥", category: "clothes" as const },
-  { id: "accessories", title: "Drip Extras 💎", category: "accessories" as const },
-];
-
-const CategoryRow = ({ id, title, category }: typeof categories[number]) => {
+const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const products = getProductsByCategory(category);
+  const { products, loading } = useShopifyProducts(50);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -20,36 +14,42 @@ const CategoryRow = ({ id, title, category }: typeof categories[number]) => {
   };
 
   return (
-    <div id={id}>
-      <div className="container mx-auto px-4 mb-4 flex items-end justify-between">
-        <h2 className="text-2xl sm:text-3xl font-heading font-bold">{title}</h2>
-        <div className="hidden sm:flex gap-2">
-          <button onClick={() => scroll("left")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button onClick={() => scroll("right")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
-            <ChevronRight className="w-4 h-4" />
-          </button>
+    <section className="py-10 space-y-12">
+      <div>
+        <div className="container mx-auto px-4 mb-4 flex items-end justify-between">
+          <h2 className="text-2xl sm:text-3xl font-heading font-bold">All Products 🛍️</h2>
+          <div className="hidden sm:flex gap-2">
+            <button onClick={() => scroll("left")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button onClick={() => scroll("right")} className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {loading && (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        )}
+
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory pb-2">
+          {!loading && products.length === 0 && (
+            <div className="w-full text-center py-12 text-muted-foreground">
+              <p className="text-lg font-medium">No products found</p>
+              <p className="text-sm mt-1">Products will appear here once added to your Shopify store.</p>
+            </div>
+          )}
+          {products.map((product) => (
+            <div key={product.node.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
+              <ProductCard shopifyProduct={product} />
+            </div>
+          ))}
         </div>
       </div>
-
-      <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory pb-2">
-        {products.map((product) => (
-          <div key={product.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
-            <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
-          </div>
-        ))}
-      </div>
-    </div>
+    </section>
   );
 };
-
-const CategoryBanner = () => (
-  <section className="py-10 space-y-12">
-    {categories.map((cat) => (
-      <CategoryRow key={cat.id} {...cat} />
-    ))}
-  </section>
-);
 
 export default CategoryBanner;

@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { getProductsByBrand, getAllBrands } from "@/data/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const BrandPage = () => {
   const { brandName } = useParams<{ brandName: string }>();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const decodedBrand = decodeURIComponent(brandName || "");
-  const products = getProductsByBrand(decodedBrand);
-  const allBrands = getAllBrands();
+  const { products, loading } = useShopifyProducts(50, `vendor:${decodedBrand}`);
 
   return (
     <div className="min-h-screen bg-background">
@@ -37,28 +36,19 @@ const BrandPage = () => {
             <p className="text-muted-foreground mt-1">{products.length} product{products.length !== 1 ? "s" : ""}</p>
           </div>
 
-          {products.length > 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+          ) : products.length > 0 ? (
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {products.map((product, index) => (
-                <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.04}s` }}>
-                  <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
+                <div key={product.node.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.04}s` }}>
+                  <ProductCard shopifyProduct={product} />
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-16">
               <p className="text-muted-foreground mb-6">No products found for "{decodedBrand}"</p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {allBrands.map((brand) => (
-                  <button
-                    key={brand}
-                    onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
-                    className="px-4 py-2 rounded-full bg-muted text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {brand}
-                  </button>
-                ))}
-              </div>
             </div>
           )}
         </div>
