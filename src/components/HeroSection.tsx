@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getAllBrands } from "@/data/products";
+import heroBg from "@/assets/hero-bg.jpeg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
