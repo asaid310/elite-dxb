@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ShoppingBag, Menu, X, Search, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import { getAllBrands } from "@/data/products";
 
 const navItems = [
@@ -18,7 +18,8 @@ interface NavbarProps {
 
 const Navbar = ({ onSearchOpen }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { totalItems, setIsOpen: setCartOpen } = useCart();
+  const totalItemCount = useCartStore(state => state.totalItems)();
+  const setCartOpen = useCartStore(state => state.setIsOpen);
   const navigate = useNavigate();
   const brands = getAllBrands();
 
