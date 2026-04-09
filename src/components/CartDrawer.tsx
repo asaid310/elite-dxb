@@ -1,10 +1,26 @@
-import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { useEffect } from "react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ExternalLink, Loader2 } from "lucide-react";
+import { useCartStore } from "@/stores/cartStore";
 
 const CartDrawer = () => {
-  const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalItems, totalPrice, clearCart } = useCart();
+  const { items, isOpen, setIsOpen, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, clearCart, syncCart, totalItems, totalPrice } = useCartStore();
+
+  useEffect(() => {
+    if (isOpen) syncCart();
+  }, [isOpen, syncCart]);
+
+  const handleCheckout = () => {
+    const checkoutUrl = getCheckoutUrl();
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
+      setIsOpen(false);
+    }
+  };
 
   if (!isOpen) return null;
+
+  const itemCount = totalItems();
+  const total = totalPrice();
 
   return (
     <>
@@ -15,7 +31,7 @@ const CartDrawer = () => {
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-primary" />
             <h2 className="text-lg font-heading font-bold text-foreground">Your Cart</h2>
-            <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-bold">{totalItems}</span>
+            <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-bold">{itemCount}</span>
           </div>
           <button onClick={() => setIsOpen(false)} className="p-2 rounded-full hover:bg-muted transition-colors">
             <X className="w-5 h-5 text-muted-foreground" />
@@ -32,39 +48,41 @@ const CartDrawer = () => {
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 rounded-xl bg-muted/30 border border-border/50">
-                  {item.imageUrl ? (
-                    <img src={item.imageUrl} alt={item.name} className="w-20 h-20 rounded-lg object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-20 h-20 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
-                      <ShoppingBag className="w-6 h-6 text-muted-foreground" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider">{item.brand}</p>
-                    <p className="font-semibold text-foreground text-sm truncate">{item.name}</p>
-                    {item.size && <p className="text-xs text-muted-foreground mt-0.5">Size: {item.size}</p>}
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 rounded-md bg-muted hover:bg-muted/80 transition-colors">
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="p-1 rounded-md bg-muted hover:bg-muted/80 transition-colors">
-                          <Plus className="w-3 h-3" />
-                        </button>
+              {items.map((item) => {
+                const imgUrl = item.product.node.images?.edges?.[0]?.node.url;
+                return (
+                  <div key={item.variantId} className="flex gap-3 p-3 rounded-xl bg-muted/30 border border-border/50">
+                    {imgUrl ? (
+                      <img src={imgUrl} alt={item.product.node.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0" />
+                    ) : (
+                      <div className="w-20 h-20 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                        <ShoppingBag className="w-6 h-6 text-muted-foreground" />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-primary">{(item.price * item.quantity).toFixed(2)} د.إ</span>
-                        <button onClick={() => removeItem(item.id)} className="p-1 text-muted-foreground hover:text-destructive transition-colors">
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground text-sm truncate">{item.product.node.title}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{item.selectedOptions.map(o => o.value).join(' • ')}</p>
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateQuantity(item.variantId, item.quantity - 1)} className="p-1 rounded-md bg-muted hover:bg-muted/80 transition-colors">
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.variantId, item.quantity + 1)} className="p-1 rounded-md bg-muted hover:bg-muted/80 transition-colors">
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-primary">{(parseFloat(item.price.amount) * item.quantity).toFixed(2)} {item.price.currencyCode}</span>
+                          <button onClick={() => removeItem(item.variantId)} className="p-1 text-muted-foreground hover:text-destructive transition-colors">
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -74,10 +92,14 @@ const CartDrawer = () => {
           <div className="border-t border-border p-5 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground font-medium">Total</span>
-              <span className="text-xl font-heading font-bold text-foreground">{totalPrice.toFixed(2)} د.إ</span>
+              <span className="text-xl font-heading font-bold text-foreground">{total.toFixed(2)} {items[0]?.price.currencyCode || ''}</span>
             </div>
-            <button className="w-full py-3.5 rounded-full bg-gradient-hero text-primary-foreground font-heading font-semibold glow-primary hover:scale-[1.02] transition-transform">
-              Checkout →
+            <button
+              onClick={handleCheckout}
+              disabled={items.length === 0 || isLoading || isSyncing}
+              className="w-full py-3.5 rounded-full bg-gradient-hero text-primary-foreground font-heading font-semibold glow-primary hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isLoading || isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4" /> Checkout with Shopify</>}
             </button>
             <button onClick={clearCart} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
               Clear cart

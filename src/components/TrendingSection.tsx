@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import ProductCard from "./ProductCard";
-import { getTrendingProducts } from "@/data/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const TrendingSection = () => {
-  const products = getTrendingProducts();
+  const { products, loading } = useShopifyProducts(20);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
@@ -27,10 +27,22 @@ const TrendingSection = () => {
         </div>
       </div>
 
+      {loading && (
+        <div className="flex justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      )}
+
       <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory">
+        {!loading && products.length === 0 && (
+          <div className="w-full text-center py-12 text-muted-foreground">
+            <p className="text-lg font-medium">No products found</p>
+            <p className="text-sm mt-1">Products will appear here once added to your Shopify store.</p>
+          </div>
+        )}
         {products.map((product) => (
-          <div key={product.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
-            <ProductCard {...product} currency="د.إ" sizes={product.sizes} />
+          <div key={product.node.id} className="min-w-[200px] sm:min-w-[240px] snap-start flex-shrink-0">
+            <ProductCard shopifyProduct={product} />
           </div>
         ))}
       </div>
