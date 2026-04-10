@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { ShoppingBag, Menu, X, Search, MapPin } from "lucide-react";
+import { ShoppingBag, Menu, X, Search, MapPin, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import { getAllBrands } from "@/data/products";
 
-const navItems = [
-  { label: "New Drops", href: "#trending" },
-  { label: "Sneakers", href: "#sneakers" },
-  { label: "Clothes", href: "#clothes" },
-  { label: "Accessories", href: "#accessories" },
-  { label: "Sale 🔥", href: "#sale" },
+const categories = [
+  { label: "Sneakers", path: "/category/sneakers" },
+  { label: "Clothes", path: "/category/clothes" },
+  { label: "Accessories", path: "/category/accessories" },
 ];
 
 interface NavbarProps {
@@ -18,6 +16,7 @@ interface NavbarProps {
 
 const Navbar = ({ onSearchOpen }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [brandsOpen, setBrandsOpen] = useState(false);
   const totalItemCount = useCartStore(state => state.totalItems)();
   const setCartOpen = useCartStore(state => state.setIsOpen);
   const navigate = useNavigate();
@@ -40,17 +39,36 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
           Elite-dxb
         </a>
 
-        {/* Desktop nav: brand links */}
-        <div className="hidden lg:flex items-center gap-5 overflow-x-auto">
-          {brands.slice(0, 8).map((brand) => (
+        {/* Desktop nav */}
+        <div className="hidden lg:flex items-center gap-6">
+          {categories.map((cat) => (
             <button
-              key={brand}
-              onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+              key={cat.label}
+              onClick={() => navigate(cat.path)}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              {brand}
+              {cat.label}
             </button>
           ))}
+          {/* Brands dropdown */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Brands <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <div className="bg-card border border-border/60 rounded-xl shadow-xl p-4 w-[340px] max-h-[320px] overflow-y-auto grid grid-cols-2 gap-1">
+                {brands.map((brand) => (
+                  <button
+                    key={brand}
+                    onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
+                    className="text-sm text-left px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors truncate"
+                  >
+                    {brand}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -80,32 +98,43 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
         </div>
       </div>
 
+      {/* Mobile menu */}
       {isOpen && (
         <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-slide-up max-h-[70vh] overflow-y-auto">
-          <div className="flex flex-col p-4 gap-3">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => setIsOpen(false)}
+          <div className="flex flex-col p-4 gap-1">
+            {/* Category links */}
+            {categories.map((cat) => (
+              <button
+                key={cat.label}
+                onClick={() => { navigate(cat.path); setIsOpen(false); }}
+                className="text-left text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 px-2 rounded-lg hover:bg-muted/40"
               >
-                {item.label}
-              </a>
+                {cat.label}
+              </button>
             ))}
-            <div className="border-t border-border/50 pt-3 mt-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">Brands</p>
-              <div className="flex flex-wrap gap-2">
-                {brands.map((brand) => (
-                  <button
-                    key={brand}
-                    onClick={() => { navigate(`/brand/${encodeURIComponent(brand)}`); setIsOpen(false); }}
-                    className="px-3 py-1.5 rounded-full text-sm bg-muted text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {brand}
-                  </button>
-                ))}
-              </div>
+
+            {/* Brands accordion */}
+            <div className="border-t border-border/50 mt-2 pt-2">
+              <button
+                onClick={() => setBrandsOpen(!brandsOpen)}
+                className="flex items-center justify-between w-full text-left text-base font-medium text-muted-foreground hover:text-foreground py-2 px-2 rounded-lg hover:bg-muted/40"
+              >
+                Brands
+                <ChevronDown className={`w-4 h-4 transition-transform ${brandsOpen ? "rotate-180" : ""}`} />
+              </button>
+              {brandsOpen && (
+                <div className="grid grid-cols-2 gap-1 mt-1 pl-1">
+                  {brands.map((brand) => (
+                    <button
+                      key={brand}
+                      onClick={() => { navigate(`/brand/${encodeURIComponent(brand)}`); setIsOpen(false); }}
+                      className="text-sm text-left px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors truncate"
+                    >
+                      {brand}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
