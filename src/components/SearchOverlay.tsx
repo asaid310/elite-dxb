@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { searchProducts, Product } from "@/data/products";
+import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -10,7 +10,8 @@ interface SearchOverlayProps {
 
 const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Product[]>([]);
+  const [results, setResults] = useState<ShopifyProduct[]>([]);
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -27,16 +28,23 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (query.length >= 2) {
-      setResults(searchProducts(query).slice(0, 12));
-    } else {
+    if (query.length < 2) {
       setResults([]);
+      return;
     }
+    const timeout = setTimeout(() => {
+      setLoading(true);
+      fetchProducts(12, `title:*${query}*`)
+        .then((data) => setResults(data))
+        .catch(() => setResults([]))
+        .finally(() => setLoading(false));
+    }, 300);
+    return () => clearTimeout(timeout);
   }, [query]);
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (handle: string) => {
     onClose();
-    navigate(`/product/${id}`);
+    navigate(`/product/${handle}`);
   };
 
   if (!isOpen) return null;
@@ -60,33 +68,45 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
         </div>
 
         <div className="mt-4 max-h-[calc(100vh-120px)] overflow-y-auto">
-          {query.length >= 2 && results.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">No products found for "{query}"</p>
-          )}
-          {results.length > 0 && (
-            <div className="grid grid-cols-2 gap-3">
-              {results.map((product) => (
-                <button
-                  key={product.id}
-                  onClick={() => handleSelect(product.id)}
-                  className="flex gap-3 p-3 rounded-xl border border-border/50 hover:border-primary/40 bg-card transition-all text-left"
-                >
-                  <img
-                    src={product.imageUrl}
-                    alt={product.name}
-                    className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                    loading="lazy"
-                  />
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase">{product.brand}</p>
-                    <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
-                    <p className="text-sm font-bold text-primary mt-1">{product.salePrice} د.إ</p>
-                  </div>
-                </button>
-              ))}
+          {loading && (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
             </div>
           )}
-          {query.length < 2 && (
+          {!loading && query.length >= 2 && results.length === 0 && (
+            <p className="text-center text-muted-foreground py-12">No products found for "{query}"</p>
+          )}
+          {!loading && results.length > 0 && (
+            <div className="grid grid-cols-2 gap-3">
+              {results.map((product) => {
+                const p = product.node;
+                const imageUrl = p.images.edges[0]?.node.url;
+                const price = parseFloat(p.priceRange.minVariantPrice.amount);
+                const currency = p.priceRange.minVariantPrice.currencyCode === "AED" ? "د.إ" : p.priceRange.minVariantPrice.currencyCode;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => handleSelect(p.handle)}
+                    className="flex gap-3 p-3 rounded-xl border border-border/50 hover:border-primary/40 bg-card transition-all text-left"
+                  >
+                    {imageUrl && (
+                      <img
+                        src={imageUrl}
+                        alt={p.title}
+                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                        loading="lazy"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{p.title}</p>
+                      <p className="text-sm font-bold text-primary mt-1">{price.toFixed(2)} {currency}</p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {query.length < 2 && !loading && (
             <p className="text-center text-muted-foreground py-12 text-sm">Type at least 2 characters to search</p>
           )}
         </div>
