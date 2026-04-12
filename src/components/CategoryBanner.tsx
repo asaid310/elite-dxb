@@ -1,11 +1,20 @@
-import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import ProductCard from "./ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useRef, useMemo } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import products from "@/data/products";
 
 const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { products, loading } = useShopifyProducts(250);
+
+  // Shuffle and show all products
+  const shuffled = useMemo(() => {
+    const arr = [...products];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, []);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -28,22 +37,34 @@ const CategoryBanner = () => {
           </div>
         </div>
 
-        {loading && (
-          <div className="flex justify-center py-8">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
-          </div>
-        )}
-
         <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory pb-2">
-          {!loading && products.length === 0 && (
-            <div className="w-full text-center py-12 text-muted-foreground">
-              <p className="text-lg font-medium">No products found</p>
-            </div>
-          )}
-          {products.map((product) => (
-            <div key={product.node.id} className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0">
-              <ProductCard shopifyProduct={product} />
-            </div>
+          {shuffled.map((product) => (
+            <Link
+              to={`/product/${product.id}`}
+              key={product.id}
+              className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0 group"
+            >
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-muted/20 border border-border/50">
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                {product.tag && (
+                  <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[8px] px-1.5 py-0.5 rounded-full font-semibold">
+                    {product.tag}
+                  </span>
+                )}
+              </div>
+              <p className="text-[10px] sm:text-xs font-medium text-foreground mt-1 line-clamp-1">{product.name}</p>
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+                {product.originalPrice > product.salePrice && (
+                  <span className="text-[8px] sm:text-[10px] text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
+                )}
+              </div>
+            </Link>
           ))}
         </div>
       </div>
