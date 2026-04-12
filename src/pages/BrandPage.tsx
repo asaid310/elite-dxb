@@ -1,20 +1,49 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
-import ProductCard from "@/components/ProductCard";
 import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { getProductsByBrand } from "@/data/products";
+import type { Product } from "@/data/products";
+
+const LocalProductCard = ({ product }: { product: Product }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="group relative rounded-xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300 cursor-pointer"
+    >
+      <div className="relative aspect-square overflow-hidden bg-muted/20">
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div className="p-1.5">
+        <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{product.name}</h3>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+          {product.originalPrice > product.salePrice && (
+            <span className="text-[10px] text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const BrandPage = () => {
   const { brandName } = useParams<{ brandName: string }>();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const decodedBrand = decodeURIComponent(brandName || "");
-  const { products, loading } = useShopifyProducts(50, `vendor:${decodedBrand}`);
+  const products = getProductsByBrand(decodedBrand);
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,13 +65,11 @@ const BrandPage = () => {
             <p className="text-muted-foreground mt-1">{products.length} product{products.length !== 1 ? "s" : ""}</p>
           </div>
 
-          {loading ? (
-            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
-          ) : products.length > 0 ? (
+          {products.length > 0 ? (
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {products.map((product, index) => (
-                <div key={product.node.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.04}s` }}>
-                  <ProductCard shopifyProduct={product} />
+                <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.04}s` }}>
+                  <LocalProductCard product={product} />
                 </div>
               ))}
             </div>
