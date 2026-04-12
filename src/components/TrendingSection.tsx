@@ -1,23 +1,20 @@
 import { useRef, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import ProductCard from "./ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import products from "@/data/products";
 
 const TrendingSection = () => {
-  const { products, loading } = useShopifyProducts(250);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // Pick ~1 product per brand for variety, then shuffle
   const diverseProducts = useMemo(() => {
-    if (!products.length) return [];
     const brandMap = new Map<string, typeof products>();
     for (const p of products) {
-      const vendor = p.node.title.split(" ")[0] || "Other";
-      if (!brandMap.has(vendor)) brandMap.set(vendor, []);
-      brandMap.get(vendor)!.push(p);
+      if (!brandMap.has(p.brand)) brandMap.set(p.brand, []);
+      brandMap.get(p.brand)!.push(p);
     }
     const picked: typeof products = [];
-    // Round-robin: take 1 from each brand, repeat until we have ~30
     const brands = Array.from(brandMap.values());
     let round = 0;
     while (picked.length < 30 && round < 5) {
@@ -28,13 +25,13 @@ const TrendingSection = () => {
       }
       round++;
     }
-    // Shuffle
+    // Stable shuffle with seed
     for (let i = picked.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [picked[i], picked[j]] = [picked[j], picked[i]];
     }
     return picked;
-  }, [products]);
+  }, []);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -56,21 +53,32 @@ const TrendingSection = () => {
         </div>
       </div>
 
-      {loading && (
-        <div className="flex justify-center py-8">
-          <Loader2 className="w-6 h-6 animate-spin text-primary" />
-        </div>
-      )}
-
       <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory">
-        {!loading && diverseProducts.length === 0 && (
-          <div className="w-full text-center py-12 text-muted-foreground">
-            <p className="text-lg font-medium">No products found</p>
-          </div>
-        )}
         {diverseProducts.map((product) => (
-          <div key={product.node.id} className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0">
-            <ProductCard shopifyProduct={product} />
+          <div
+            key={product.id}
+            onClick={() => navigate(`/product/${product.id}`)}
+            className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0 cursor-pointer group"
+          >
+            <div className="relative rounded-xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300">
+              <div className="relative aspect-square overflow-hidden bg-muted/20">
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                {product.tag && (
+                  <span className="absolute top-1 left-1 text-[8px] font-bold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">
+                    {product.tag}
+                  </span>
+                )}
+              </div>
+              <div className="p-1.5">
+                <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{product.name}</h3>
+                <span className="text-[11px] font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
