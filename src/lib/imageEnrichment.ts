@@ -44,6 +44,10 @@ const ALIASES: Record<string, string> = {
   'syna': 'synaworld',
   'casa': 'casablanca',
   'jpg': 'jean paul gaultier',
+  'tobacco': 'tobbaco',       // typo in local data
+  'stronger with you': 'stronger with you',
+  'arsenal': 'arsenal',
+  'barca': 'barca',
 };
 
 // Brand name variants for matching Shopify vendor/title to local brand
