@@ -9,8 +9,10 @@ const TrendingSection = () => {
 
   // Pick ~1 product per brand for variety, then shuffle
   const diverseProducts = useMemo(() => {
+    const excludedBrands = ["Arsenal", "Barcelona", "Real Madrid", "Mares"];
+    const filtered = products.filter(p => !excludedBrands.includes(p.brand));
     const brandMap = new Map<string, typeof products>();
-    for (const p of products) {
+    for (const p of filtered) {
       if (!brandMap.has(p.brand)) brandMap.set(p.brand, []);
       brandMap.get(p.brand)!.push(p);
     }
