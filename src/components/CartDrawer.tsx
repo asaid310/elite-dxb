@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { X, Plus, Minus, Trash2, ShoppingBag, ExternalLink, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ExternalLink, Loader2, Copy, Check } from "lucide-react";
+import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
 import { useCurrencyStore } from "@/stores/currencyStore";
@@ -12,6 +13,8 @@ const CartDrawer = () => {
     if (isOpen) syncCart();
   }, [isOpen, syncCart]);
 
+  const [copied, setCopied] = useState(false);
+
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
@@ -21,6 +24,29 @@ const CartDrawer = () => {
         window.location.href = checkoutUrl;
       }
       setIsOpen(false);
+    }
+  };
+
+  const handleCopyCheckoutLink = async () => {
+    const checkoutUrl = getCheckoutUrl();
+    if (checkoutUrl) {
+      try {
+        await navigator.clipboard.writeText(checkoutUrl);
+        setCopied(true);
+        toast.success("Checkout link copied! Paste it in your browser.");
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // Fallback for browsers that don't support clipboard API
+        const textArea = document.createElement('textarea');
+        textArea.value = checkoutUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        setCopied(true);
+        toast.success("Checkout link copied! Paste it in your browser.");
+        setTimeout(() => setCopied(false), 2000);
+      }
     }
   };
 
@@ -116,6 +142,13 @@ const CartDrawer = () => {
             >
               {isLoading || isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4" /> Checkout with Shopify</>}
             </button>
+            <button
+              onClick={handleCopyCheckoutLink}
+              className="w-full py-2.5 rounded-full border border-border text-foreground font-medium text-sm hover:bg-muted transition-colors flex items-center justify-center gap-2"
+            >
+              {copied ? <><Check className="w-4 h-4 text-green-500" /> Link Copied!</> : <><Copy className="w-4 h-4" /> Copy Checkout Link</>}
+            </button>
+            <p className="text-xs text-muted-foreground text-center">Using TikTok or Instagram? Copy the link and paste it in your browser</p>
             <button onClick={clearCart} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
               Clear cart
             </button>
