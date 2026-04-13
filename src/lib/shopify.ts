@@ -185,7 +185,8 @@ export async function fetchProducts(first = 50, query?: string): Promise<Shopify
 
 export async function fetchProductByHandle(handle: string): Promise<ShopifyProduct['node'] | null> {
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
-  return data?.data?.product || null;
+  const product = data?.data?.product || null;
+  return product ? enrichProductNodeImage(product) : null;
 }
 
 // ---- Cart mutations ----
