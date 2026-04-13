@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { enrichProductImage, enrichProductNodeImage } from "@/lib/imageEnrichment";
 
 // Shopify Storefront API configuration
 const SHOPIFY_API_VERSION = '2025-07';
