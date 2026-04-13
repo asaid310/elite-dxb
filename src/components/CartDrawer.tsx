@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { X, Plus, Minus, Trash2, ShoppingBag, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, clearCart, syncCart, totalItems, totalPrice } = useCartStore();
@@ -50,6 +51,12 @@ const CartDrawer = () => {
             <div className="flex flex-col gap-4">
               {items.map((item) => {
                 const imgUrl = item.product.node.images?.edges?.[0]?.node.url;
+                const isPerfume = isPerfumeProduct({
+                  title: item.product.node.title,
+                  description: item.product.node.description,
+                });
+                const displayOptions = filterDisplayOptions(item.selectedOptions, isPerfume);
+
                 return (
                   <div key={item.variantId} className="flex gap-3 p-3 rounded-xl bg-muted/30 border border-border/50">
                     {imgUrl ? (
@@ -61,7 +68,9 @@ const CartDrawer = () => {
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-foreground text-sm truncate">{item.product.node.title}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{item.selectedOptions.map(o => o.value).join(' • ')}</p>
+                      {displayOptions.length > 0 && (
+                        <p className="text-xs text-muted-foreground mt-0.5">{displayOptions.map(o => o.value).join(' • ')}</p>
+                      )}
                       <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center gap-2">
                           <button onClick={() => updateQuantity(item.variantId, item.quantity - 1)} className="p-1 rounded-md bg-muted hover:bg-muted/80 transition-colors">
