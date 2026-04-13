@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
-import products as localProducts from "@/data/products";
+import localProducts from "@/data/products";
 import { useCurrencyStore } from "@/stores/currencyStore";
 
 const categoryMap: Record<string, { label: string; query: string; localCategory: string }> = {
