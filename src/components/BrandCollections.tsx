@@ -37,7 +37,7 @@ const BrandCollections = () => {
             <button
               key={brand}
               onClick={() => navigate(`/brand/${encodeURIComponent(brand)}`)}
-              className="relative min-w-[260px] sm:min-w-[300px] h-[360px] rounded-2xl overflow-hidden snap-start flex-shrink-0 group"
+              className="relative min-w-[260px] sm:min-w-[300px] h-[360px] rounded-2xl overflow-hidden snap-start flex-shrink-0 group transition-transform duration-300 hover:scale-105 active:scale-110 active:z-10"
             >
               {image && (
                 <img
