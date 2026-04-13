@@ -19,6 +19,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
+  const setCartOpen = useCartStore(state => state.setIsOpen);
   const format = useCurrencyStore(state => state.format);
   const [shopifyProduct, setShopifyProduct] = useState<ShopifyProduct['node'] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -92,11 +93,7 @@ const ProductDetail = () => {
       quantity: 1,
       selectedOptions: shopifyVariant.selectedOptions || [],
     });
-    // Go straight to checkout
-    const checkoutUrl = useCartStore.getState().getCheckoutUrl();
-    if (checkoutUrl) {
-      window.location.assign(checkoutUrl);
-    }
+    setCartOpen(true);
   };
 
   // Render local product with Shopify checkout
@@ -341,11 +338,7 @@ const ProductDetail = () => {
                   Add to Cart
                 </button>
                 <button
-                  onClick={async () => {
-                    await handleShopifyAddToCart();
-                    const checkoutUrl = useCartStore.getState().getCheckoutUrl();
-                    if (checkoutUrl) window.location.assign(checkoutUrl);
-                  }}
+                  onClick={handleBuyNow}
                   disabled={!selectedVariant?.availableForSale || isCartLoading}
                   className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
                     selectedVariant?.availableForSale
