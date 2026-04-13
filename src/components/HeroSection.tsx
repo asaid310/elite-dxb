@@ -21,7 +21,7 @@ const HeroSection = () => {
             <h1 className="text-4xl sm:text-6xl font-heading font-bold leading-tight uppercase tracking-tight">
               Free Shipping
               <br />
-              <span className="text-gradient">All Over The UAE</span>
+              <span className="text-gradient">All Over The GCC</span>
             </h1>
             <a
               href="#trending"

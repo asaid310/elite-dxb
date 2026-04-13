@@ -14,7 +14,7 @@ const tabs = [
     icon: Truck,
     label: "Shipping",
     title: "Fast 7–12 Day Delivery",
-    description: "Get your order delivered to your door in just 7–12 business days across the UAE. Free shipping on all orders! 🚚",
+    description: "Get your order delivered to your door in just 7–12 business days across the GCC. Free shipping on all orders! 🚚",
   },
   {
     id: "trust",
