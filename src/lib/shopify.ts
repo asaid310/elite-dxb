@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { enrichProductImage, enrichProductNodeImage } from "@/lib/imageEnrichment";
 
 // Shopify Storefront API configuration
 const SHOPIFY_API_VERSION = '2025-07';
@@ -178,12 +179,14 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
 
 export async function fetchProducts(first = 50, query?: string): Promise<ShopifyProduct[]> {
   const data = await storefrontApiRequest(STOREFRONT_QUERY, { first, query: query || null });
-  return data?.data?.products?.edges || [];
+  const products: ShopifyProduct[] = data?.data?.products?.edges || [];
+  return products.map(enrichProductImage);
 }
 
 export async function fetchProductByHandle(handle: string): Promise<ShopifyProduct['node'] | null> {
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
-  return data?.data?.product || null;
+  const product = data?.data?.product || null;
+  return product ? enrichProductNodeImage(product) : null;
 }
 
 // ---- Cart mutations ----
