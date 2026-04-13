@@ -56,12 +56,9 @@ const ProductDetail = () => {
     brand: localProduct?.brand,
     description: shopifyProduct?.description || localProduct?.description,
   });
-  const visibleShopifyVariants = (shopifyProduct?.variants.edges || []).filter(({ node }) => {
-    if (!isPerfume) return true;
-    const filtered = filterDisplayOptions(node.selectedOptions || [], true);
-    return filtered.length > 0 || !node.title || ["default title", "one size", "s", "m", "l", "xl", "xxl"].includes(node.title.toLowerCase());
-  });
-  const shopifyVariant = visibleShopifyVariants[selectedVariantIdx]?.node || shopifyProduct?.variants.edges[selectedVariantIdx]?.node;
+  const visibleShopifyVariants = shopifyProduct?.variants.edges || [];
+  const safeVariantIdx = selectedVariantIdx < visibleShopifyVariants.length ? selectedVariantIdx : 0;
+  const shopifyVariant = visibleShopifyVariants[safeVariantIdx]?.node;
 
   const handleAddToCart = async () => {
     if (!shopifyProduct || !shopifyVariant) {
