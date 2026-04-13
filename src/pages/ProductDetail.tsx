@@ -11,7 +11,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import products from "@/data/products";
 import type { Product } from "@/data/products";
 import { toast } from "sonner";
-import { createShopifyCart } from "@/lib/shopify";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
