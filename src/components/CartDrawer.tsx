@@ -6,6 +6,7 @@ import { useCurrencyStore } from "@/stores/currencyStore";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, clearCart, syncCart, totalItems, totalPrice } = useCartStore();
+  const format = useCurrencyStore(state => state.format);
 
   useEffect(() => {
     if (isOpen) syncCart();
