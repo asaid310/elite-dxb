@@ -82,7 +82,7 @@ const CartDrawer = () => {
                           </button>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-primary">{(parseFloat(item.price.amount) * item.quantity).toFixed(2)} {item.price.currencyCode}</span>
+                          <span className="text-sm font-bold text-primary">{format(parseFloat(item.price.amount) * item.quantity)}</span>
                           <button onClick={() => removeItem(item.variantId)} className="p-1 text-muted-foreground hover:text-destructive transition-colors">
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -101,7 +101,7 @@ const CartDrawer = () => {
           <div className="border-t border-border p-5 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground font-medium">Total</span>
-              <span className="text-xl font-heading font-bold text-foreground">{total.toFixed(2)} {items[0]?.price.currencyCode || ''}</span>
+              <span className="text-xl font-heading font-bold text-foreground">{format(total)}</span>
             </div>
             <button
               onClick={handleCheckout}
