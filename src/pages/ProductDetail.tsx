@@ -10,6 +10,7 @@ import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import products from "@/data/products";
 import type { Product } from "@/data/products";
+import { toast } from "sonner";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
@@ -26,8 +27,9 @@ const ProductDetail = () => {
   // Check local products first
   const localProduct: Product | undefined = products.find(p => p.id === handle);
 
+  // Always try to fetch from Shopify (even for local products)
   useEffect(() => {
-    if (!handle || localProduct) {
+    if (!handle) {
       setLoading(false);
       return;
     }
@@ -35,7 +37,7 @@ const ProductDetail = () => {
     fetchProductByHandle(handle)
       .then(setShopifyProduct)
       .finally(() => setLoading(false));
-  }, [handle, localProduct]);
+  }, [handle]);
 
   if (loading) {
     return (
@@ -46,7 +48,27 @@ const ProductDetail = () => {
     );
   }
 
-  // Render local product
+  // If we have a Shopify product, use that for checkout (even if local product exists)
+  const hasShopifyCheckout = !!shopifyProduct;
+  const shopifyVariant = shopifyProduct?.variants.edges[selectedVariantIdx]?.node;
+
+  const handleAddToCart = async () => {
+    if (!shopifyProduct || !shopifyVariant) {
+      toast.error("This product is not available for checkout yet. Please contact us on WhatsApp for assistance.");
+      return;
+    }
+    const shopifyProductWrapper: ShopifyProduct = { node: shopifyProduct };
+    await addItem({
+      product: shopifyProductWrapper,
+      variantId: shopifyVariant.id,
+      variantTitle: shopifyVariant.title,
+      price: shopifyVariant.price,
+      quantity: 1,
+      selectedOptions: shopifyVariant.selectedOptions || [],
+    });
+  };
+
+  // Render local product with Shopify checkout
   if (localProduct) {
     return (
       <div className="min-h-screen bg-background">
@@ -86,8 +108,30 @@ const ProductDetail = () => {
                   <p className="text-sm text-muted-foreground mt-4 leading-relaxed">{localProduct.description}</p>
                 )}
 
-                {/* Size selector */}
-                {localProduct.sizes.length > 0 && (
+                {/* Size selector - use Shopify variants if available, otherwise local sizes */}
+                {hasShopifyCheckout && shopifyProduct.variants.edges.length > 1 ? (
+                  <div className="mt-6">
+                    <span className="text-sm font-semibold text-foreground mb-2 block">Select Size</span>
+                    <div className="flex flex-wrap gap-2">
+                      {shopifyProduct.variants.edges.map((v, idx) => (
+                        <button
+                          key={v.node.id}
+                          onClick={() => setSelectedVariantIdx(idx)}
+                          disabled={!v.node.availableForSale}
+                          className={`min-w-[48px] px-3 py-2.5 rounded-lg text-sm font-semibold border-2 transition-all ${
+                            selectedVariantIdx === idx
+                              ? "border-primary bg-primary/10 text-primary"
+                              : v.node.availableForSale
+                                ? "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                : "border-border text-muted-foreground/40 cursor-not-allowed"
+                          }`}
+                        >
+                          {v.node.title}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : localProduct.sizes.length > 0 ? (
                   <div className="mt-6">
                     <span className="text-sm font-semibold text-foreground mb-2 block">Select Size</span>
                     <div className="flex flex-wrap gap-2">
@@ -106,17 +150,20 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   </div>
-                )}
+                ) : null}
 
-                <a
-                  href={`https://wa.me/971505052659?text=${encodeURIComponent(`Hi, I'd like to order: ${localProduct.name} (${localProduct.brand})${selectedSize ? ` - Size: ${selectedSize}` : ''} - ${localProduct.salePrice.toFixed(2)} AED`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02] transition-all"
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isCartLoading || (hasShopifyCheckout && !shopifyVariant?.availableForSale)}
+                  className={`mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
+                    hasShopifyCheckout && !shopifyVariant?.availableForSale
+                      ? "bg-muted text-muted-foreground cursor-not-allowed"
+                      : "bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02]"
+                  }`}
                 >
-                  <ShoppingBag className="w-5 h-5" />
-                  Buy Now
-                </a>
+                  {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingBag className="w-5 h-5" />}
+                  {hasShopifyCheckout && !shopifyVariant?.availableForSale ? "Unavailable" : "Buy Now"}
+                </button>
 
                 <div className="grid grid-cols-3 gap-2 mt-6">
                   {[
@@ -143,7 +190,7 @@ const ProductDetail = () => {
     );
   }
 
-  // Shopify product fallback
+  // Shopify-only product
   if (!shopifyProduct) {
     return (
       <div className="min-h-screen bg-background">
@@ -165,7 +212,7 @@ const ProductDetail = () => {
   const imageUrl = product.images.edges[0]?.node.url;
   const shopifyProductWrapper: ShopifyProduct = { node: product };
 
-  const handleAddToCart = async () => {
+  const handleShopifyAddToCart = async () => {
     if (!selectedVariant) return;
     await addItem({
       product: shopifyProductWrapper,
@@ -238,7 +285,7 @@ const ProductDetail = () => {
               )}
 
               <button
-                onClick={handleAddToCart}
+                onClick={handleShopifyAddToCart}
                 disabled={!selectedVariant?.availableForSale || isCartLoading}
                 className={`mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
                   selectedVariant?.availableForSale
