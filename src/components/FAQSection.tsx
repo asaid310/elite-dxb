@@ -8,11 +8,11 @@ import {
 const faqs = [
   {
     q: "What payment methods do you accept?",
-    a: "We accept Apple Pay, Ziina, and Cash on Delivery (COD) across the UAE.",
+    a: "We accept Apple Pay, Ziina, and Cash on Delivery (COD) across the GCC.",
   },
   {
     q: "How long does shipping take?",
-    a: "Delivery takes 7–12 business days across the UAE. All orders ship with free delivery!",
+    a: "Delivery takes 7–12 business days across the GCC. All orders ship with free delivery!",
   },
   {
     q: "What is the return policy?",
