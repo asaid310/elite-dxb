@@ -11,6 +11,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import products from "@/data/products";
 import type { Product } from "@/data/products";
 import { toast } from "sonner";
+import { createShopifyCart } from "@/lib/shopify";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
@@ -66,6 +67,27 @@ const ProductDetail = () => {
       quantity: 1,
       selectedOptions: shopifyVariant.selectedOptions || [],
     });
+  };
+
+  const handleBuyNow = async () => {
+    if (!shopifyProduct || !shopifyVariant) {
+      toast.error("This product is not available for checkout yet. Please contact us on WhatsApp for assistance.");
+      return;
+    }
+    const shopifyProductWrapper: ShopifyProduct = { node: shopifyProduct };
+    await addItem({
+      product: shopifyProductWrapper,
+      variantId: shopifyVariant.id,
+      variantTitle: shopifyVariant.title,
+      price: shopifyVariant.price,
+      quantity: 1,
+      selectedOptions: shopifyVariant.selectedOptions || [],
+    });
+    // Go straight to checkout
+    const checkoutUrl = useCartStore.getState().getCheckoutUrl();
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
+    }
   };
 
   // Render local product with Shopify checkout
@@ -152,18 +174,31 @@ const ProductDetail = () => {
                   </div>
                 ) : null}
 
-                <button
-                  onClick={handleAddToCart}
-                  disabled={isCartLoading || (hasShopifyCheckout && !shopifyVariant?.availableForSale)}
-                  className={`mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
-                    hasShopifyCheckout && !shopifyVariant?.availableForSale
-                      ? "bg-muted text-muted-foreground cursor-not-allowed"
-                      : "bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02]"
-                  }`}
-                >
-                  {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingBag className="w-5 h-5" />}
-                  {hasShopifyCheckout && !shopifyVariant?.availableForSale ? "Unavailable" : "Buy Now"}
-                </button>
+                <div className="flex gap-3 mt-6">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={isCartLoading || (hasShopifyCheckout && !shopifyVariant?.availableForSale)}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all border-2 ${
+                      hasShopifyCheckout && !shopifyVariant?.availableForSale
+                        ? "bg-muted text-muted-foreground cursor-not-allowed border-border"
+                        : "border-primary text-primary hover:bg-primary/10 hover:scale-[1.02]"
+                    }`}
+                  >
+                    {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingBag className="w-5 h-5" />}
+                    Add to Cart
+                  </button>
+                  <button
+                    onClick={handleBuyNow}
+                    disabled={isCartLoading || (hasShopifyCheckout && !shopifyVariant?.availableForSale)}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
+                      hasShopifyCheckout && !shopifyVariant?.availableForSale
+                        ? "bg-muted text-muted-foreground cursor-not-allowed"
+                        : "bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02]"
+                    }`}
+                  >
+                    Buy Now
+                  </button>
+                </div>
 
                 <div className="grid grid-cols-3 gap-2 mt-6">
                   {[
@@ -284,18 +319,35 @@ const ProductDetail = () => {
               </div>
               )}
 
-              <button
-                onClick={handleShopifyAddToCart}
-                disabled={!selectedVariant?.availableForSale || isCartLoading}
-                className={`mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
-                  selectedVariant?.availableForSale
-                    ? "bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02]"
-                    : "bg-muted text-muted-foreground cursor-not-allowed"
-                }`}
-              >
-                {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingBag className="w-5 h-5" />}
-                {selectedVariant?.availableForSale ? "Add to Cart" : "Unavailable"}
-              </button>
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={handleShopifyAddToCart}
+                  disabled={!selectedVariant?.availableForSale || isCartLoading}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all border-2 ${
+                    selectedVariant?.availableForSale
+                      ? "border-primary text-primary hover:bg-primary/10 hover:scale-[1.02]"
+                      : "bg-muted text-muted-foreground cursor-not-allowed border-border"
+                  }`}
+                >
+                  {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingBag className="w-5 h-5" />}
+                  Add to Cart
+                </button>
+                <button
+                  onClick={async () => {
+                    await handleShopifyAddToCart();
+                    const checkoutUrl = useCartStore.getState().getCheckoutUrl();
+                    if (checkoutUrl) window.open(checkoutUrl, '_blank');
+                  }}
+                  disabled={!selectedVariant?.availableForSale || isCartLoading}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
+                    selectedVariant?.availableForSale
+                      ? "bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02]"
+                      : "bg-muted text-muted-foreground cursor-not-allowed"
+                  }`}
+                >
+                  Buy Now
+                </button>
+              </div>
 
               <div className="grid grid-cols-3 gap-2 mt-6">
                 {[
