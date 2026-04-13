@@ -2,9 +2,11 @@ import { useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import products from "@/data/products";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const format = useCurrencyStore(state => state.format);
 
   // Shuffle and show all products
   const shuffled = useMemo(() => {
@@ -59,7 +61,7 @@ const CategoryBanner = () => {
               </div>
               <p className="text-[10px] sm:text-xs font-medium text-foreground mt-1 line-clamp-1">{product.name}</p>
               <div className="flex items-center gap-1">
-                <span className="text-[10px] sm:text-xs font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+                <span className="text-[10px] sm:text-xs font-bold text-primary">{format(product.salePrice)}</span>
                 {product.originalPrice > product.salePrice && (
                   <span className="text-[8px] sm:text-[10px] text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
                 )}

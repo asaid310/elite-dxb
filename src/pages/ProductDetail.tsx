@@ -12,12 +12,14 @@ import products from "@/data/products";
 import type { Product } from "@/data/products";
 import { toast } from "sonner";
 import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
+  const format = useCurrencyStore(state => state.format);
   const [shopifyProduct, setShopifyProduct] = useState<ShopifyProduct['node'] | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -127,9 +129,9 @@ const ProductDetail = () => {
                 <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground mt-1">{localProduct.name}</h1>
 
                 <div className="flex flex-wrap items-center gap-2 mt-3">
-                  <span className="text-2xl font-bold text-primary">{localProduct.salePrice.toFixed(2)} د.إ</span>
+                  <span className="text-2xl font-bold text-primary">{format(localProduct.salePrice)}</span>
                   {localProduct.originalPrice > localProduct.salePrice && (
-                    <span className="text-base text-muted-foreground line-through">{localProduct.originalPrice.toFixed(2)} د.إ</span>
+                    <span className="text-base text-muted-foreground line-through">{format(localProduct.originalPrice)}</span>
                   )}
                 </div>
 
@@ -250,7 +252,6 @@ const ProductDetail = () => {
   const product = shopifyProduct;
   const selectedVariant = product.variants.edges[selectedVariantIdx]?.node;
   const price = parseFloat(selectedVariant?.price.amount || product.priceRange.minVariantPrice.amount);
-  const currency = product.priceRange.minVariantPrice.currencyCode === "AED" ? "د.إ" : product.priceRange.minVariantPrice.currencyCode;
   const imageUrl = product.images.edges[0]?.node.url;
   const shopifyProductWrapper: ShopifyProduct = { node: product };
 
@@ -293,7 +294,7 @@ const ProductDetail = () => {
               <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground mt-1">{product.title}</h1>
 
               <div className="flex flex-wrap items-center gap-2 mt-3">
-                <span className="text-2xl font-bold text-primary">{price.toFixed(2)} {currency}</span>
+                <span className="text-2xl font-bold text-primary">{format(price)}</span>
               </div>
 
               {product.description && product.description.length > 0 && (

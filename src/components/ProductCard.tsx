@@ -2,6 +2,7 @@ import { Heart, ShoppingBag, ImageIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
+import { useCurrencyStore } from "@/stores/currencyStore";
 import type { ShopifyProduct } from "@/lib/shopify";
 
 interface ProductCardProps {
@@ -18,7 +19,7 @@ const ProductCard = ({ shopifyProduct }: ProductCardProps) => {
   const name = product.title;
   const imageUrl = product.images.edges[0]?.node.url;
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
-  const currency = product.priceRange.minVariantPrice.currencyCode === "AED" ? "د.إ" : product.priceRange.minVariantPrice.currencyCode;
+  const format = useCurrencyStore(state => state.format);
   const selectedVariant = product.variants.edges[0]?.node;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -71,7 +72,7 @@ const ProductCard = ({ shopifyProduct }: ProductCardProps) => {
 
       <div className="p-1.5">
         <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{name}</h3>
-        <span className="text-[11px] font-bold text-primary">{price.toFixed(2)} {currency}</span>
+        <span className="text-[11px] font-bold text-primary">{format(price)}</span>
       </div>
     </div>
   );
