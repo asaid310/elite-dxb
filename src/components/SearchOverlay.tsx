@@ -69,14 +69,15 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
       <div className="container mx-auto px-4 pt-6 pb-4 max-w-2xl">
         <div className="flex items-center gap-3 border-b border-border pb-4">
           <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search products, brands..."
-            className="flex-1 bg-transparent text-lg text-foreground placeholder:text-muted-foreground outline-none"
-          />
+           <input
+             ref={inputRef}
+             type="text"
+             value={query}
+             onChange={(e) => setQuery(e.target.value)}
+             onKeyDown={handleKeyDown}
+             placeholder="Search products, brands..."
+             className="flex-1 bg-transparent text-lg text-foreground placeholder:text-muted-foreground outline-none"
+           />
           <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
           </button>
