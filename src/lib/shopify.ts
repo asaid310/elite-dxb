@@ -244,6 +244,7 @@ function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
     url.searchParams.set('channel', 'online_store');
+    url.searchParams.set('skip_shop_pay', 'true');
     return url.toString();
   } catch {
     return checkoutUrl;

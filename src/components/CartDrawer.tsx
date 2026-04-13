@@ -15,13 +15,6 @@ const CartDrawer = () => {
 
   const [copied, setCopied] = useState(false);
 
-  const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) {
-      // Redirect in same tab — works in TikTok, Instagram, and all in-app browsers
-      window.location.href = checkoutUrl;
-    }
-  };
 
   const handleCopyCheckoutLink = async () => {
     const checkoutUrl = getCheckoutUrl();
@@ -50,6 +43,7 @@ const CartDrawer = () => {
 
   const itemCount = totalItems();
   const total = totalPrice();
+  const checkoutUrl = getCheckoutUrl();
 
   return (
     <>
@@ -131,18 +125,34 @@ const CartDrawer = () => {
               <span className="text-muted-foreground font-medium">Total</span>
               <span className="text-xl font-heading font-bold text-foreground">{format(total)}</span>
             </div>
-            <button
-              onClick={handleCheckout}
-              disabled={items.length === 0 || isLoading || isSyncing}
-              className="w-full py-3.5 rounded-full bg-gradient-hero text-primary-foreground font-heading font-semibold glow-primary hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isLoading || isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4" /> Checkout with Shopify</>}
-            </button>
+            {checkoutUrl ? (
+              <a
+                href={checkoutUrl}
+                onClick={(event) => {
+                  if (isLoading || isSyncing) {
+                    event.preventDefault();
+                    return;
+                  }
+                  setIsOpen(false);
+                }}
+                aria-disabled={isLoading || isSyncing}
+                className={`w-full py-3.5 rounded-full bg-gradient-hero text-primary-foreground font-heading font-semibold glow-primary transition-transform flex items-center justify-center gap-2 ${isLoading || isSyncing ? 'opacity-50 pointer-events-none' : 'hover:scale-[1.02]'}`}
+              >
+                {isLoading || isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4" /> Checkout with Shopify</>}
+              </a>
+            ) : (
+              <button
+                disabled
+                className="w-full py-3.5 rounded-full bg-gradient-hero text-primary-foreground font-heading font-semibold glow-primary transition-transform flex items-center justify-center gap-2 opacity-50"
+              >
+                <ExternalLink className="w-4 h-4" /> Checkout with Shopify
+              </button>
+            )}
             <button
               onClick={handleCopyCheckoutLink}
               className="w-full py-2.5 rounded-full border border-border text-foreground font-medium text-sm hover:bg-muted transition-colors flex items-center justify-center gap-2"
             >
-              {copied ? <><Check className="w-4 h-4 text-green-500" /> Link Copied!</> : <><Copy className="w-4 h-4" /> Copy Checkout Link</>}
+              {copied ? <><Check className="w-4 h-4 text-primary" /> Link Copied!</> : <><Copy className="w-4 h-4" /> Copy Checkout Link</>}
             </button>
             <p className="text-xs text-muted-foreground text-center">Using TikTok or Instagram? Copy the link and paste it in your browser</p>
             <button onClick={clearCart} className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors">
