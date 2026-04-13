@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { ShoppingBag, Menu, X, Search, MapPin, ChevronDown } from "lucide-react";
+import { useState, useRef } from "react";
+import { ShoppingBag, Menu, X, Search, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
+import { useCurrencyStore, GCC_CURRENCIES } from "@/stores/currencyStore";
 import { getAllBrands } from "@/data/products";
 
 const categories = [
@@ -17,18 +18,49 @@ interface NavbarProps {
 const Navbar = ({ onSearchOpen }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const totalItemCount = useCartStore(state => state.totalItems)();
   const setCartOpen = useCartStore(state => state.setIsOpen);
+  const selected = useCurrencyStore(state => state.selected);
+  const setSelected = useCurrencyStore(state => state.setSelected);
   const navigate = useNavigate();
   const brands = getAllBrands();
+  const currencyRef = useRef<HTMLDivElement>(null);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80">
       <div className="border-b border-border/30 bg-muted/30">
         <div className="container mx-auto flex items-center justify-between py-1.5 px-4 text-xs text-muted-foreground">
-          <div className="flex items-center gap-1.5">
-            <MapPin className="w-3 h-3" />
-            <span>🇦🇪 AED · 🇸🇦 SAR · 🇰🇼 KWD · 🇧🇭 BHD · 🇴🇲 OMR · 🇶🇦 QAR</span>
+          <div className="relative" ref={currencyRef}>
+            <button
+              onClick={() => setCurrencyOpen(!currencyOpen)}
+              className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+            >
+              <span>{selected.flag} {selected.code} ({selected.symbol})</span>
+              <ChevronDown className={`w-3 h-3 transition-transform ${currencyOpen ? "rotate-180" : ""}`} />
+            </button>
+            {currencyOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setCurrencyOpen(false)} />
+                <div className="absolute top-full left-0 mt-1 z-50 bg-card border border-border rounded-lg shadow-xl py-1 min-w-[160px]">
+                  {GCC_CURRENCIES.map((currency) => (
+                    <button
+                      key={currency.code}
+                      onClick={() => { setSelected(currency); setCurrencyOpen(false); }}
+                      className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
+                        selected.code === currency.code
+                          ? "bg-primary/10 text-primary font-semibold"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      <span>{currency.flag}</span>
+                      <span>{currency.code}</span>
+                      <span className="text-muted-foreground">({currency.symbol})</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
           <span className="hidden sm:inline">Free delivery on orders over 200 د.إ</span>
         </div>
@@ -102,7 +134,6 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
       {isOpen && (
         <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-slide-up max-h-[70vh] overflow-y-auto">
           <div className="flex flex-col p-4 gap-1">
-            {/* Category links */}
             {categories.map((cat) => (
               <button
                 key={cat.label}
