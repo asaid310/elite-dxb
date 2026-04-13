@@ -18,12 +18,8 @@ const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
-      // Use location.href as fallback for in-app browsers (TikTok, Instagram) that block window.open
-      const newWindow = window.open(checkoutUrl, '_blank');
-      if (!newWindow || newWindow.closed) {
-        window.location.href = checkoutUrl;
-      }
-      setIsOpen(false);
+      // Redirect in same tab — works in TikTok, Instagram, and all in-app browsers
+      window.location.href = checkoutUrl;
     }
   };
 
