@@ -11,6 +11,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import products from "@/data/products";
 import type { Product } from "@/data/products";
 import { toast } from "sonner";
+import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
@@ -50,7 +51,14 @@ const ProductDetail = () => {
 
   // If we have a Shopify product, use that for checkout (even if local product exists)
   const hasShopifyCheckout = !!shopifyProduct;
-  const shopifyVariant = shopifyProduct?.variants.edges[selectedVariantIdx]?.node;
+  const isPerfume = isPerfumeProduct({
+    title: shopifyProduct?.title || localProduct?.name,
+    brand: localProduct?.brand,
+    description: shopifyProduct?.description || localProduct?.description,
+  });
+  const visibleShopifyVariants = shopifyProduct?.variants.edges || [];
+  const safeVariantIdx = selectedVariantIdx < visibleShopifyVariants.length ? selectedVariantIdx : 0;
+  const shopifyVariant = visibleShopifyVariants[safeVariantIdx]?.node;
 
   const handleAddToCart = async () => {
     if (!shopifyProduct || !shopifyVariant) {
@@ -130,11 +138,11 @@ const ProductDetail = () => {
                 )}
 
                 {/* Size selector - use Shopify variants if available, otherwise local sizes */}
-                {hasShopifyCheckout && shopifyProduct.variants.edges.length > 1 ? (
+                {hasShopifyCheckout && visibleShopifyVariants.length > 1 && !isPerfume ? (
                   <div className="mt-6">
                     <span className="text-sm font-semibold text-foreground mb-2 block">Select Size</span>
                     <div className="flex flex-wrap gap-2">
-                      {shopifyProduct.variants.edges.map((v, idx) => (
+                      {visibleShopifyVariants.map((v, idx) => (
                         <button
                           key={v.node.id}
                           onClick={() => setSelectedVariantIdx(idx)}
@@ -292,13 +300,13 @@ const ProductDetail = () => {
                 <p className="text-sm text-muted-foreground mt-4 leading-relaxed">{product.description}</p>
               )}
 
-              {product.variants.edges.length > 1 && (
+              {visibleShopifyVariants.length > 1 && !isPerfume && (
               <div className="mt-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-semibold text-foreground">Select Variant</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.variants.edges.map((v, idx) => (
+                  {visibleShopifyVariants.map((v, idx) => (
                     <button
                       key={v.node.id}
                       onClick={() => setSelectedVariantIdx(idx)}
