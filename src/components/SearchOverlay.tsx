@@ -49,6 +49,19 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
     navigate(`/product/${handle}`);
   };
 
+  const handleViewAll = () => {
+    if (query.length >= 2) {
+      onClose();
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleViewAll();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (

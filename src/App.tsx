@@ -9,6 +9,7 @@ import ProductDetail from "./pages/ProductDetail.tsx";
 import BrandPage from "./pages/BrandPage.tsx";
 import CategoryPage from "./pages/CategoryPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import SearchResults from "./pages/SearchResults.tsx";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/brand/:brandName" element={<BrandPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/search" element={<SearchResults />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
