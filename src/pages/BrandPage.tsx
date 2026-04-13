@@ -8,9 +8,11 @@ import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { getProductsByBrand } from "@/data/products";
 import type { Product } from "@/data/products";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 const LocalProductCard = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
+  const format = useCurrencyStore(state => state.format);
 
   return (
     <div
@@ -28,7 +30,7 @@ const LocalProductCard = ({ product }: { product: Product }) => {
       <div className="p-1.5">
         <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{product.name}</h3>
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+          <span className="text-[11px] font-bold text-primary">{format(product.salePrice)}</span>
           {product.originalPrice > product.salePrice && (
             <span className="text-[10px] text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
           )}

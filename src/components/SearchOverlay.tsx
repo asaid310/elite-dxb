@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const format = useCurrencyStore(state => state.format);
 
   useEffect(() => {
     if (isOpen) {
@@ -82,7 +84,6 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
                 const p = product.node;
                 const imageUrl = p.images.edges[0]?.node.url;
                 const price = parseFloat(p.priceRange.minVariantPrice.amount);
-                const currency = p.priceRange.minVariantPrice.currencyCode === "AED" ? "د.إ" : p.priceRange.minVariantPrice.currencyCode;
                 return (
                   <button
                     key={p.id}
@@ -99,7 +100,7 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
                     )}
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{p.title}</p>
-                      <p className="text-sm font-bold text-primary mt-1">{price.toFixed(2)} {currency}</p>
+                      <p className="text-sm font-bold text-primary mt-1">{format(price)}</p>
                     </div>
                   </button>
                 );
