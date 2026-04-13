@@ -108,15 +108,14 @@ const ProductDetail = () => {
                   </div>
                 )}
 
-                {/* WhatsApp order button for local products */}
                 <a
-                  href={`https://wa.me/971565480207?text=${encodeURIComponent(`Hi, I'd like to order: ${localProduct.name} (${localProduct.brand})${selectedSize ? ` - Size: ${selectedSize}` : ''} - ${localProduct.salePrice.toFixed(2)} AED`)}`}
+                  href={`https://wa.me/971505052659?text=${encodeURIComponent(`Hi, I'd like to order: ${localProduct.name} (${localProduct.brand})${selectedSize ? ` - Size: ${selectedSize}` : ''} - ${localProduct.salePrice.toFixed(2)} AED`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-heading font-semibold text-base bg-gradient-hero text-primary-foreground glow-primary hover:scale-[1.02] transition-all"
                 >
                   <ShoppingBag className="w-5 h-5" />
-                  Order via WhatsApp
+                  Buy Now
                 </a>
 
                 <div className="grid grid-cols-3 gap-2 mt-6">
