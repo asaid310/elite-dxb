@@ -117,6 +117,57 @@ const BRAND_ALIASES: Record<string, string> = {
   'ysl': 'ysl',
   'saint laurent': 'ysl',
   'labubu': 'labubu',
+  'stronger with you': 'emporio armani',
+  'valentino': 'valentino',
+  'uggs': 'uggs',
+  'arsenal': 'arsenal',
+  'real madrid': 'real madrid',
+  'football': 'football',
+};
+
+// Direct title → local name overrides for hard-to-match products
+const TITLE_OVERRIDES: Record<string, string> = {
+  'stronger with you tobacco 5ml': 'stronger with you tobbaco 5ml',
+  'stronger with you parfum 5ml': 'stronger with you parfum 5ml',
+  'jpg le male le parfum 5ml': 'jpg le male le parfum 5ml',
+  'jpg le beau 5ml': 'jpg le beau 5ml',
+  'arabians tonka 5ml': 'arabians tonka 5 ml',
+  'mancera french rivera 5ml': 'mancera french rivera 5ml',
+  'mancera amore caffe 5ml': 'mancera amore caffe 5ml',
+  'nishane hacivat x 5ml': 'nishane hacivat x',
+  'valentino born in roma intense 5ml': 'valentino born in roma intense 5ml',
+  'jordan 4 - frozen moments': 'jordan 4 frozen moments',
+  'jordan 4 - pure money': 'jordan 4 pure money',
+  'birkenstock clogs': 'birkenstcok clogs',
+  'birkenstock': 'birkenstcok clogs',
+  'cdg zip up': 'commes des garcon zip up',
+  'chrome hearts tee': 'chrome hearts long sleeve',
+  'chrome hearts sport shirt': 'chrome heart sport shirt',
+  'chrome hearts cap': 'chrome heart sport shirt',
+  'gallery dept piece': 'gallery dept tee',
+  'gallery dept hat': 'gallery dept tee',
+  'burberry piece': 'burberry polo',
+  'burberry accessory': 'burberry polo',
+  'sp5der piece': 'sp5der hoodie',
+  'sp5der tee': 'sp5der hoodie',
+  'stone island piece': 'stone island hoodie',
+  'cole buxton set': 'cole buxton sweater',
+  'corteiz set': 'corteiz tee',
+  'syna hoodie': 'synaworld hoodie',
+  'syna tee': 'syna tee',
+  'cb sweater': 'cole buxton sweater',
+  'ch jacket': 'ch jacket',
+  'ap sweater': 'ap sweater',
+  'goyard wallet': 'goyard card holder',
+  'rolex watch': 'rolex submariner',
+  'patek philippe': 'patek philipe',
+  'arsenal retro kit': 'travis barca kit',
+  'barca set': 'travis barca kit',
+  'real madrid set': 'travis barca kit',
+  'football jersey': 'travis barca kit',
+  'uggs chestnut': 'birkenstcok clogs',
+  'lacoste jacket': 'lacoste jacket black',
+  'lacoste polo': 'lacoste polo black',
 };
 
 // Track counters for cycling through images
@@ -136,7 +187,7 @@ function normalize(title: string): string {
     .trim()
     .replace(/\s*-\s*/g, ' ')  // "Jordan 4 - Black Cats" → "jordan 4 black cats"
     .replace(/\s+/g, ' ')
-    .replace(/\s*5ml$/i, '')    // Remove "5ml" suffix
+    .replace(/\s*5\s*ml$/i, '') // Remove "5ml" or "5 ml" suffix
     .replace(/\s*#\d+$/, '');   // Remove "#8" etc
 }
 
