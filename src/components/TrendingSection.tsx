@@ -2,10 +2,12 @@ import { useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import products from "@/data/products";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 const TrendingSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const format = useCurrencyStore(state => state.format);
 
   // Pick ~1 product per brand for variety, then shuffle
   const diverseProducts = useMemo(() => {
@@ -78,7 +80,7 @@ const TrendingSection = () => {
               </div>
               <div className="p-1.5">
                 <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{product.name}</h3>
-                <span className="text-[11px] font-bold text-primary">{product.salePrice.toFixed(2)} د.إ</span>
+                <span className="text-[11px] font-bold text-primary">{format(product.salePrice)}</span>
               </div>
             </div>
           </div>
