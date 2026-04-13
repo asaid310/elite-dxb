@@ -49,6 +49,19 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
     navigate(`/product/${handle}`);
   };
 
+  const handleViewAll = () => {
+    if (query.length >= 2) {
+      onClose();
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleViewAll();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -56,14 +69,15 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
       <div className="container mx-auto px-4 pt-6 pb-4 max-w-2xl">
         <div className="flex items-center gap-3 border-b border-border pb-4">
           <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search products, brands..."
-            className="flex-1 bg-transparent text-lg text-foreground placeholder:text-muted-foreground outline-none"
-          />
+           <input
+             ref={inputRef}
+             type="text"
+             value={query}
+             onChange={(e) => setQuery(e.target.value)}
+             onKeyDown={handleKeyDown}
+             placeholder="Search products, brands..."
+             className="flex-1 bg-transparent text-lg text-foreground placeholder:text-muted-foreground outline-none"
+           />
           <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
           </button>
@@ -79,33 +93,41 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
             <p className="text-center text-muted-foreground py-12">No products found for "{query}"</p>
           )}
           {!loading && results.length > 0 && (
-            <div className="grid grid-cols-2 gap-3">
-              {results.map((product) => {
-                const p = product.node;
-                const imageUrl = p.images.edges[0]?.node.url;
-                const price = parseFloat(p.priceRange.minVariantPrice.amount);
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => handleSelect(p.handle)}
-                    className="flex gap-3 p-3 rounded-xl border border-border/50 hover:border-primary/40 bg-card transition-all text-left"
-                  >
-                    {imageUrl && (
-                      <img
-                        src={imageUrl}
-                        alt={p.title}
-                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                        loading="lazy"
-                      />
-                    )}
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{p.title}</p>
-                      <p className="text-sm font-bold text-primary mt-1">{format(price)}</p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <>
+              <button
+                onClick={handleViewAll}
+                className="w-full py-3 mb-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-primary/20 transition-colors"
+              >
+                View all results for "{query}" →
+              </button>
+              <div className="grid grid-cols-2 gap-3">
+                {results.map((product) => {
+                  const p = product.node;
+                  const imageUrl = p.images.edges[0]?.node.url;
+                  const price = parseFloat(p.priceRange.minVariantPrice.amount);
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => handleSelect(p.handle)}
+                      className="flex gap-3 p-3 rounded-xl border border-border/50 hover:border-primary/40 bg-card transition-all text-left"
+                    >
+                      {imageUrl && (
+                        <img
+                          src={imageUrl}
+                          alt={p.title}
+                          className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{p.title}</p>
+                        <p className="text-sm font-bold text-primary mt-1">{format(price)}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </>
           )}
           {query.length < 2 && !loading && (
             <p className="text-center text-muted-foreground py-12 text-sm">Type at least 2 characters to search</p>
