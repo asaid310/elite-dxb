@@ -152,7 +152,7 @@ const ProductDetail = () => {
                       ))}
                     </div>
                   </div>
-                ) : localProduct.sizes.length > 0 ? (
+                ) : localProduct.sizes.length > 0 && !(localProduct.sizes.length === 1 && localProduct.sizes[0] === "One Size") ? (
                   <div className="mt-6">
                     <span className="text-sm font-semibold text-foreground mb-2 block">Select Size</span>
                     <div className="flex flex-wrap gap-2">
