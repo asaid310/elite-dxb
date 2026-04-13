@@ -95,7 +95,7 @@ const ProductDetail = () => {
     // Go straight to checkout
     const checkoutUrl = useCartStore.getState().getCheckoutUrl();
     if (checkoutUrl) {
-      window.open(checkoutUrl, '_blank');
+      window.location.assign(checkoutUrl);
     }
   };
 
@@ -344,7 +344,7 @@ const ProductDetail = () => {
                   onClick={async () => {
                     await handleShopifyAddToCart();
                     const checkoutUrl = useCartStore.getState().getCheckoutUrl();
-                    if (checkoutUrl) window.open(checkoutUrl, '_blank');
+                    if (checkoutUrl) window.location.assign(checkoutUrl);
                   }}
                   disabled={!selectedVariant?.availableForSale || isCartLoading}
                   className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-heading font-semibold text-base transition-all ${
