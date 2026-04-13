@@ -226,6 +226,12 @@ function findLocalImage(title: string): string | null {
   const lower = title.toLowerCase().trim();
   const normalized = normalize(title);
 
+  // 0. Direct title overrides
+  const overrideKey = TITLE_OVERRIDES[lower] || TITLE_OVERRIDES[normalized];
+  if (overrideKey && imageMap.has(overrideKey)) {
+    return nextImage(`override-${overrideKey}`, imageMap.get(overrideKey)!);
+  }
+
   // 1. Direct exact match
   if (imageMap.has(lower)) {
     return nextImage(`exact-${lower}`, imageMap.get(lower)!);
