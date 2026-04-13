@@ -15,7 +15,11 @@ const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
-      window.open(checkoutUrl, '_blank');
+      // Use location.href as fallback for in-app browsers (TikTok, Instagram) that block window.open
+      const newWindow = window.open(checkoutUrl, '_blank');
+      if (!newWindow || newWindow.closed) {
+        window.location.href = checkoutUrl;
+      }
       setIsOpen(false);
     }
   };
