@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { ShoppingBag, Menu, X, Search, ChevronDown } from "lucide-react";
+import { ShoppingBag, Menu, X, Search, ChevronDown, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import { useCurrencyStore, GCC_CURRENCIES } from "@/stores/currencyStore";
@@ -29,47 +29,12 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80">
-      <div className="border-b border-border/30 bg-muted/30">
-        <div className="container mx-auto flex items-center justify-between py-1.5 px-4 text-xs text-muted-foreground">
-          <div className="relative" ref={currencyRef}>
-            <button
-              onClick={() => setCurrencyOpen(!currencyOpen)}
-              className="flex items-center gap-1.5 hover:text-foreground transition-colors"
-            >
-              <span>{selected.flag} {selected.code} ({selected.symbol})</span>
-              <ChevronDown className={`w-3 h-3 transition-transform ${currencyOpen ? "rotate-180" : ""}`} />
-            </button>
-            {currencyOpen && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setCurrencyOpen(false)} />
-                <div className="absolute top-full left-0 mt-1 z-50 bg-card border border-border rounded-lg shadow-xl py-1 min-w-[160px]">
-                  {GCC_CURRENCIES.map((currency) => (
-                    <button
-                      key={currency.code}
-                      onClick={() => { setSelected(currency); setCurrencyOpen(false); }}
-                      className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
-                        selected.code === currency.code
-                          ? "bg-primary/10 text-primary font-semibold"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                      }`}
-                    >
-                      <span>{currency.flag}</span>
-                      <span>{currency.code}</span>
-                      <span className="text-muted-foreground">({currency.symbol})</span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-          <span className="hidden sm:inline">Free delivery on orders over 200 د.إ</span>
-        </div>
-      </div>
-
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
-        <a href="/" className="text-lg sm:text-xl font-heading font-bold text-foreground tracking-tight">
-          Elite-dxb
-        </a>
+        <div className="flex items-center gap-4">
+          <a href="/" className="text-lg sm:text-xl font-heading font-bold text-foreground tracking-tight">
+            Elite-dxb
+          </a>
+        </div>
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-6">
@@ -103,7 +68,44 @@ const Navbar = ({ onSearchOpen }: NavbarProps) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* Currency Switcher */}
+          <div className="relative" ref={currencyRef}>
+            <button
+              onClick={() => setCurrencyOpen(!currencyOpen)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border/60 bg-muted/40 hover:bg-muted/70 hover:border-primary/40 transition-all text-sm font-medium"
+            >
+              <span className="text-base leading-none">{selected.flag}</span>
+              <span className="text-foreground font-semibold">{selected.code}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform ${currencyOpen ? "rotate-180" : ""}`} />
+            </button>
+            {currencyOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setCurrencyOpen(false)} />
+                <div className="absolute top-full right-0 mt-2 z-50 bg-card border border-border rounded-xl shadow-xl py-1.5 min-w-[180px]">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border-b border-border/50 mb-1">
+                    Select Currency
+                  </div>
+                  {GCC_CURRENCIES.map((currency) => (
+                    <button
+                      key={currency.code}
+                      onClick={() => { setSelected(currency); setCurrencyOpen(false); }}
+                      className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2.5 transition-colors ${
+                        selected.code === currency.code
+                          ? "bg-primary/10 text-primary font-semibold"
+                          : "text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      <span className="text-base">{currency.flag}</span>
+                      <span className="font-medium">{currency.code}</span>
+                      <span className="text-muted-foreground ml-auto text-xs">{currency.symbol}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
           <button
             onClick={onSearchOpen}
             className="p-2 text-muted-foreground hover:text-foreground transition-colors"
