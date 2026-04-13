@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { X, Plus, Minus, Trash2, ShoppingBag, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
+import { useCurrencyStore } from "@/stores/currencyStore";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, clearCart, syncCart, totalItems, totalPrice } = useCartStore();

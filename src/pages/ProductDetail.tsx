@@ -253,7 +253,6 @@ const ProductDetail = () => {
   const selectedVariant = product.variants.edges[selectedVariantIdx]?.node;
   const price = parseFloat(selectedVariant?.price.amount || product.priceRange.minVariantPrice.amount);
   const imageUrl = product.images.edges[0]?.node.url;
-  const imageUrl = product.images.edges[0]?.node.url;
   const shopifyProductWrapper: ShopifyProduct = { node: product };
 
   const handleShopifyAddToCart = async () => {
