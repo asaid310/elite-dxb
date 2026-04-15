@@ -72,13 +72,22 @@ const BrandPage = () => {
 
           <div className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-heading font-bold">{decodedBrand}</h1>
-            <p className="text-muted-foreground mt-1">{products.length} product{products.length !== 1 ? "s" : ""}</p>
+            <p className="text-muted-foreground mt-1">
+              {loading ? "Loading..." : `${totalCount} product${totalCount !== 1 ? "s" : ""}`}
+            </p>
           </div>
 
-          {products.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {products.map((product, index) => (
-                <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.04}s` }}>
+          {loading ? (
+            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+          ) : totalCount > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+              {shopifyProducts.map((product, index) => (
+                <div key={product.node.id} className="animate-slide-up" style={{ animationDelay: `${Math.min(index * 0.02, 0.5)}s` }}>
+                  <ProductCard shopifyProduct={product} />
+                </div>
+              ))}
+              {uniqueLocalProducts.map((product, index) => (
+                <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${Math.min((shopifyProducts.length + index) * 0.02, 0.8)}s` }}>
                   <LocalProductCard product={product} />
                 </div>
               ))}
