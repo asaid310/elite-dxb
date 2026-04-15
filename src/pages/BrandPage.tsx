@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
 import SearchOverlay from "@/components/SearchOverlay";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { getProductsByBrand } from "@/data/products";
 import type { Product } from "@/data/products";
 import { useCurrencyStore } from "@/stores/currencyStore";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 
 const LocalProductCard = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
