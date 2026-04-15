@@ -47,7 +47,13 @@ const BrandPage = () => {
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const decodedBrand = decodeURIComponent(brandName || "");
-  const products = getProductsByBrand(decodedBrand);
+  const localProducts = getProductsByBrand(decodedBrand);
+  const { products: shopifyProducts, loading } = useShopifyProducts(250, `vendor:${decodedBrand}`);
+
+  // Dedup: exclude local products that exist in Shopify
+  const shopifyTitles = new Set(shopifyProducts.map(p => p.node.title.toLowerCase()));
+  const uniqueLocalProducts = localProducts.filter(lp => !shopifyTitles.has(lp.name.toLowerCase()));
+  const totalCount = shopifyProducts.length + uniqueLocalProducts.length;
 
   return (
     <div className="min-h-screen bg-background">
