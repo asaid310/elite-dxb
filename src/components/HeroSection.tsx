@@ -15,14 +15,14 @@ const HeroSection = () => {
 
         <div className="relative z-10 h-full flex items-end pb-12 px-6 sm:px-10">
           <div className="max-w-xl">
-            <h1 className="text-4xl sm:text-6xl font-heading font-bold leading-tight uppercase tracking-tight">
+            <h1 className="text-4xl sm:text-6xl font-heading font-bold leading-tight uppercase tracking-tight text-white drop-shadow-lg">
               Free Shipping
               <br />
-              <span className="text-gradient">All Over The GCC</span>
+              <span className="text-white">All Over The GCC</span>
             </h1>
             <a
               href="#trending"
-              className="inline-flex items-center gap-2 mt-6 text-sm font-medium text-foreground hover:text-primary transition-colors underline underline-offset-4"
+              className="inline-flex items-center gap-2 mt-6 text-sm font-medium text-white hover:text-white/80 transition-colors underline underline-offset-4 drop-shadow-md"
             >
               Buy now <ArrowRight className="w-4 h-4" />
             </a>
