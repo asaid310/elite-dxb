@@ -46,8 +46,7 @@ const BrandCollections = () => {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
+              <div className="absolute bottom-0 left-0 right-0 p-5 bg-background/80 backdrop-blur-sm">
                 <h3 className="text-lg font-heading font-bold text-foreground">{brand}</h3>
                 <span className="text-sm text-primary font-medium">Buy now →</span>
               </div>
