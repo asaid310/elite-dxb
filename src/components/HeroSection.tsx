@@ -11,10 +11,8 @@ const HeroSection = () => {
     <section className="relative pt-28 pb-0 overflow-hidden">
       {/* Full-width hero banner */}
       <div className="relative w-full h-[70vh] min-h-[400px] max-h-[700px]">
-        <div className="absolute inset-0 bg-gradient-to-br from-muted/60 via-muted/30 to-background" />
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
 
         <div className="relative z-10 h-full flex items-end pb-12 px-6 sm:px-10">
           <div className="max-w-xl">
