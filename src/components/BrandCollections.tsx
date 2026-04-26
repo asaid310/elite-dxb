@@ -13,7 +13,16 @@ const BrandCollections = () => {
     scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   };
 
-  const brands = getAllBrands();
+  // Hide fragrance-only brands from the homepage "Shop by Brand" carousel.
+  // Fragrance products are standardized as "One Size" only.
+  const brands = getAllBrands().filter((brand) => {
+    const items = getProductsByBrand(brand);
+    if (items.length === 0) return false;
+    const isFragranceOnly = items.every(
+      (p) => p.sizes.length === 1 && p.sizes[0] === "One Size",
+    );
+    return !isFragranceOnly;
+  });
 
   return (
     <section className="py-14">
