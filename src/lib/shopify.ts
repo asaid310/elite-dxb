@@ -5,7 +5,13 @@ import { enrichProductImage, enrichProductNodeImage } from "@/lib/imageEnrichmen
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'style-steals-2s9gg.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = '87a22bd15f01aec2252361512f528b6e';
+// Shopify Storefront Access Token — this is a publishable token designed by Shopify
+// for client-side use (read-only storefront + cart scopes). It is exposed in the
+// shipped JS bundle by design. We read it from a Vite env var to keep it out of
+// future git history and make rotation a config-only change.
+const SHOPIFY_STOREFRONT_TOKEN =
+  (import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN as string | undefined) ??
+  '87a22bd15f01aec2252361512f528b6e';
 
 export interface ShopifyProduct {
   node: {
