@@ -21,9 +21,9 @@ const TrendingSection = () => {
     const picked: typeof products = [];
     const brands = Array.from(brandMap.values());
     let round = 0;
-    while (picked.length < 30 && round < 5) {
+    while (picked.length < 8 && round < 5) {
       for (const brandProducts of brands) {
-        if (round < brandProducts.length && picked.length < 30) {
+        if (round < brandProducts.length && picked.length < 8) {
           picked.push(brandProducts[round]);
         }
       }
@@ -62,7 +62,7 @@ const TrendingSection = () => {
           <div
             key={product.id}
             onClick={() => navigate(`/product/${product.id}`)}
-            className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0 cursor-pointer group"
+            className="min-w-[200px] w-[200px] sm:min-w-[260px] sm:w-[260px] snap-start flex-shrink-0 cursor-pointer group"
           >
             <div className="relative rounded-xl overflow-hidden bg-gradient-card border border-border/50 shadow-card hover:border-primary/30 transition-all duration-300">
               <div className="relative aspect-square overflow-hidden bg-muted/20">
@@ -73,14 +73,14 @@ const TrendingSection = () => {
                   loading="lazy"
                 />
                 {product.tag && (
-                  <span className="absolute top-1 left-1 text-[8px] font-bold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-2 text-[10px] font-bold bg-primary text-primary-foreground px-2 py-1 rounded-full">
                     {product.tag}
                   </span>
                 )}
               </div>
-              <div className="p-1.5">
-                <h3 className="font-heading font-semibold text-[11px] text-foreground truncate">{product.name}</h3>
-                <span className="text-[11px] font-bold text-primary">{format(product.salePrice)}</span>
+              <div className="p-3">
+                <h3 className="font-heading font-semibold text-sm text-foreground truncate">{product.name}</h3>
+                <span className="text-sm font-bold text-primary">{format(product.salePrice)}</span>
               </div>
             </div>
           </div>
