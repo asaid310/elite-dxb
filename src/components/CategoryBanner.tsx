@@ -8,14 +8,14 @@ const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const format = useCurrencyStore(state => state.format);
 
-  // Shuffle and show all products
+  // Shuffle and show a limited set of products
   const shuffled = useMemo(() => {
     const arr = [...products];
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    return arr;
+    return arr.slice(0, 8);
   }, []);
 
   const scroll = (dir: "left" | "right") => {
@@ -44,9 +44,9 @@ const CategoryBanner = () => {
             <Link
               to={`/product/${product.id}`}
               key={product.id}
-              className="min-w-[100px] w-[100px] sm:min-w-[130px] sm:w-[130px] snap-start flex-shrink-0 group"
+              className="min-w-[200px] w-[200px] sm:min-w-[260px] sm:w-[260px] snap-start flex-shrink-0 group"
             >
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-muted/20 border border-border/50">
+              <div className="relative aspect-square rounded-xl overflow-hidden bg-muted/20 border border-border/50">
                 <img
                   src={product.imageUrl}
                   alt={product.name}
@@ -54,16 +54,16 @@ const CategoryBanner = () => {
                   loading="lazy"
                 />
                 {product.tag && (
-                  <span className="absolute top-1 left-1 bg-primary text-primary-foreground text-[8px] px-1.5 py-0.5 rounded-full font-semibold">
+                  <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] px-2 py-1 rounded-full font-semibold">
                     {product.tag}
                   </span>
                 )}
               </div>
-              <p className="text-[10px] sm:text-xs font-medium text-foreground mt-1 line-clamp-1">{product.name}</p>
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] sm:text-xs font-bold text-primary">{format(product.salePrice)}</span>
+              <p className="text-sm font-medium text-foreground mt-2 line-clamp-1">{product.name}</p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-primary">{format(product.salePrice)}</span>
                 {product.originalPrice > product.salePrice && (
-                  <span className="text-[8px] sm:text-[10px] text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
+                  <span className="text-xs text-muted-foreground line-through">{product.originalPrice.toFixed(2)}</span>
                 )}
               </div>
             </Link>
