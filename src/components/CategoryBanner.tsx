@@ -8,9 +8,16 @@ const CategoryBanner = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const format = useCurrencyStore(state => state.format);
 
-  // Shuffle and show a limited set of products
+  // Shuffle and show a limited set of high-end products
   const shuffled = useMemo(() => {
-    const arr = [...products];
+    const highEndBrands = new Set([
+      "YSL","Goyard","Gucci","Louis Vuitton","Dior","Hermes","Burberry","Versace","Tom Ford",
+      "Loro Piana","Maison Margiela","Chrome Hearts","Amiri","AMI","Gallery Dept","Casablanca",
+      "Acne Studios","Stone Island","Comme des Garcons","Ralph Lauren","Golden Goose",
+      "Rolex","Patek Philippe","Audemars Piguet","Van Cleef","Rimowa","Jean Paul Gaultier",
+      "Creed","Nishane","Mancera"
+    ]);
+    const arr = products.filter(p => highEndBrands.has(p.brand));
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];

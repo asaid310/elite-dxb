@@ -11,8 +11,14 @@ const TrendingSection = () => {
 
   // Pick ~1 product per brand for variety, then shuffle
   const diverseProducts = useMemo(() => {
-    const excludedBrands = ["Arsenal", "Barcelona", "Real Madrid", "Mares"];
-    const filtered = products.filter(p => !excludedBrands.includes(p.brand) && (p.category === "sneakers" || p.category === "clothes"));
+    const highEndBrands = new Set([
+      "YSL","Goyard","Gucci","Louis Vuitton","Dior","Hermes","Burberry","Versace","Tom Ford",
+      "Loro Piana","Maison Margiela","Chrome Hearts","Amiri","AMI","Gallery Dept","Casablanca",
+      "Acne Studios","Stone Island","Comme des Garcons","Ralph Lauren","Golden Goose",
+      "Rolex","Patek Philippe","Audemars Piguet","Van Cleef","Rimowa","Jean Paul Gaultier",
+      "Creed","Nishane","Mancera"
+    ]);
+    const filtered = products.filter(p => highEndBrands.has(p.brand) && (p.category === "sneakers" || p.category === "clothes" || p.category === "accessories"));
     const brandMap = new Map<string, typeof products>();
     for (const p of filtered) {
       if (!brandMap.has(p.brand)) brandMap.set(p.brand, []);
