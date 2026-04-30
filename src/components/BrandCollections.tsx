@@ -24,14 +24,17 @@ const BrandCollections = () => {
     return !isFragranceOnly;
   });
 
-  // Swap the positions of YSL and Chief Keef in the carousel order.
+  // Swap brand positions in the carousel order.
   const brands = (() => {
     const arr = [...baseBrands];
-    const yslIdx = arr.indexOf("YSL");
-    const ckIdx = arr.indexOf("Chief Keef");
-    if (yslIdx !== -1 && ckIdx !== -1) {
-      [arr[yslIdx], arr[ckIdx]] = [arr[ckIdx], arr[yslIdx]];
-    }
+    const swap = (a: string, b: string) => {
+      const i = arr.indexOf(a);
+      const j = arr.indexOf(b);
+      if (i !== -1 && j !== -1) [arr[i], arr[j]] = [arr[j], arr[i]];
+    };
+    swap("YSL", "Chief Keef");
+    swap("Hermes", "AMI");
+    swap("Louis Vuitton", "Comme des Garcons");
     return arr;
   })();
 
