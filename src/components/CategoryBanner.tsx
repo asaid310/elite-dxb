@@ -17,7 +17,7 @@ const CategoryBanner = () => {
       "Rolex","Patek Philippe","Audemars Piguet","Van Cleef","Rimowa","Jean Paul Gaultier",
       "Creed","Nishane","Mancera"
     ]);
-    const arr = products.filter(p => highEndBrands.has(p.brand));
+    const arr = products.filter(p => highEndBrands.has(p.brand) && (p.category === "sneakers" || p.category === "clothes"));
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -35,7 +35,7 @@ const CategoryBanner = () => {
     <section className="py-10 space-y-12">
       <div>
         <div className="container mx-auto px-4 mb-4 flex items-end justify-between">
-          <h2 className="text-xl sm:text-2xl font-heading font-bold">All Products 🛍️</h2>
+          <h2 className="text-xl sm:text-2xl font-heading font-bold">All Products</h2>
           <div className="hidden sm:flex gap-2">
             <button onClick={() => scroll("left")} className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="w-3.5 h-3.5" />

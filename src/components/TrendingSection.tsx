@@ -18,7 +18,7 @@ const TrendingSection = () => {
       "Rolex","Patek Philippe","Audemars Piguet","Van Cleef","Rimowa","Jean Paul Gaultier",
       "Creed","Nishane","Mancera"
     ]);
-    const filtered = products.filter(p => highEndBrands.has(p.brand) && (p.category === "sneakers" || p.category === "clothes" || p.category === "accessories"));
+    const filtered = products.filter(p => highEndBrands.has(p.brand) && (p.category === "sneakers" || p.category === "clothes"));
     const brandMap = new Map<string, typeof products>();
     for (const p of filtered) {
       if (!brandMap.has(p.brand)) brandMap.set(p.brand, []);
@@ -52,7 +52,7 @@ const TrendingSection = () => {
   return (
     <section id="trending" className="py-10 px-0">
       <div className="container mx-auto px-4 mb-4 flex items-end justify-between">
-        <h2 className="text-xl sm:text-2xl font-heading font-bold">Trending Now 🔥</h2>
+        <h2 className="text-xl sm:text-2xl font-heading font-bold">Trending Now</h2>
         <div className="hidden sm:flex gap-2">
           <button onClick={() => scroll("left")} className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft className="w-3.5 h-3.5" />
