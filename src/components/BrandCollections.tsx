@@ -15,7 +15,7 @@ const BrandCollections = () => {
 
   // Hide fragrance-only brands from the homepage "Shop by Brand" carousel.
   // Fragrance products are standardized as "One Size" only.
-  const brands = getAllBrands().filter((brand) => {
+  const baseBrands = getAllBrands().filter((brand) => {
     const items = getProductsByBrand(brand);
     if (items.length === 0) return false;
     const isFragranceOnly = items.every(
@@ -23,6 +23,23 @@ const BrandCollections = () => {
     );
     return !isFragranceOnly;
   });
+
+  // Swap the positions of YSL and Chief Keef in the carousel order.
+  const brands = (() => {
+    const arr = [...baseBrands];
+    const yslIdx = arr.indexOf("YSL");
+    const ckIdx = arr.indexOf("Chief Keef");
+    if (yslIdx !== -1 && ckIdx !== -1) {
+      [arr[yslIdx], arr[ckIdx]] = [arr[ckIdx], arr[yslIdx]];
+    }
+    return arr;
+  })();
+
+  // Per-brand image overrides for the category card.
+  const brandImageOverrides: Record<string, string> = {
+    "Ralph Lauren":
+      "https://cdn.shopify.com/s/files/1/0635/3531/7043/files/3BC26C0E-87B3-4011-90A1-B1FA55454D0E.webp?v=1774551282&width=800",
+  };
 
   return (
     <section className="py-14">
@@ -41,7 +58,7 @@ const BrandCollections = () => {
       <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory">
         {brands.map((brand) => {
           const products = getProductsByBrand(brand);
-          const image = products[0]?.imageUrl;
+          const image = brandImageOverrides[brand] ?? products[0]?.imageUrl;
           return (
             <button
               key={brand}
