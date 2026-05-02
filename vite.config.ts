@@ -5,6 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // GitHub Pages serves the site under /elite-dxb/ — Lovable preview serves at /
+  base: mode === "production" && process.env.GITHUB_PAGES === "true" ? "/elite-dxb/" : "/",
   server: {
     host: "::",
     port: 8080,
