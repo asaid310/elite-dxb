@@ -13,6 +13,7 @@ import type { Product } from "@/data/products";
 import { toast } from "sonner";
 import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
 import { useCurrencyStore } from "@/stores/currencyStore";
+import { trackViewContent } from "@/lib/tiktokPixel";
 
 const ProductDetail = () => {
   const { id: handle } = useParams();
@@ -39,7 +40,18 @@ const ProductDetail = () => {
     }
     setLoading(true);
     fetchProductByHandle(handle)
-      .then(setShopifyProduct)
+      .then((p) => {
+        setShopifyProduct(p);
+        if (p) {
+          const variant = p.variants.edges[0]?.node;
+          trackViewContent({
+            contentId: variant?.id || p.id,
+            contentName: p.title,
+            price: parseFloat(variant?.price.amount || p.priceRange.minVariantPrice.amount),
+            currency: variant?.price.currencyCode || p.priceRange.minVariantPrice.currencyCode,
+          });
+        }
+      })
       .finally(() => setLoading(false));
   }, [handle]);
 

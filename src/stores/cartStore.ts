@@ -9,6 +9,7 @@ import {
   removeLineFromShopifyCart,
   syncShopifyCart,
 } from '@/lib/shopify';
+import { trackAddToCart } from '@/lib/tiktokPixel';
 
 export type { CartItemData };
 export type { ShopifyProduct };
@@ -45,6 +46,14 @@ export const useCartStore = create<CartStore>()(
       addItem: async (item) => {
         const { items, cartId, clearCart } = get();
         const existingItem = items.find(i => i.variantId === item.variantId);
+
+        trackAddToCart({
+          contentId: item.variantId,
+          contentName: item.product.node.title,
+          price: parseFloat(item.price.amount),
+          currency: item.price.currencyCode,
+          quantity: item.quantity,
+        });
 
         set({ isLoading: true });
         try {

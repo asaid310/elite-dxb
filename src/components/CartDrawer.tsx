@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { filterDisplayOptions, isPerfumeProduct } from "@/lib/productDisplay";
 import { useCurrencyStore } from "@/stores/currencyStore";
+import { trackInitiateCheckout } from "@/lib/tiktokPixel";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, clearCart, syncCart, totalItems, totalPrice } = useCartStore();
@@ -133,6 +134,17 @@ const CartDrawer = () => {
                     event.preventDefault();
                     return;
                   }
+                  const currency = items[0]?.price.currencyCode || 'USD';
+                  trackInitiateCheckout({
+                    value: total,
+                    currency,
+                    contents: items.map((i) => ({
+                      content_id: i.variantId,
+                      content_name: i.product.node.title,
+                      quantity: i.quantity,
+                      price: parseFloat(i.price.amount),
+                    })),
+                  });
                   setIsOpen(false);
                 }}
                 aria-disabled={isLoading || isSyncing}
