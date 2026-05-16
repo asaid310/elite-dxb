@@ -40,15 +40,15 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
       fetchProducts(12, `title:*${query}*`)
         .then((data) => {
           setResults(data);
-          const currency = data[0]?.priceRange.minVariantPrice.currencyCode || 'USD';
+          const currency = data[0]?.node.priceRange.minVariantPrice.currencyCode || 'USD';
           trackSearch({
             query,
             currency,
             contents: data.slice(0, 10).map((p) => ({
-              content_id: p.id,
+              content_id: p.node.id,
               content_type: 'product',
-              content_name: p.title,
-              price: parseFloat(p.priceRange.minVariantPrice.amount),
+              content_name: p.node.title,
+              price: parseFloat(p.node.priceRange.minVariantPrice.amount),
               quantity: 1,
             })),
           });
