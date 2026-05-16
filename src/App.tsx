@@ -10,6 +10,7 @@ import BrandPage from "./pages/BrandPage.tsx";
 import CategoryPage from "./pages/CategoryPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
+import TikTokDebug from "./pages/TikTokDebug.tsx";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/brand/:brandName" element={<BrandPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/debug/tiktok" element={<TikTokDebug />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
