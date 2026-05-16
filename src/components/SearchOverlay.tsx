@@ -3,6 +3,7 @@ import { Search, X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { useCurrencyStore } from "@/stores/currencyStore";
+import { trackSearch } from "@/lib/tiktokPixel";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -37,7 +38,21 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
     const timeout = setTimeout(() => {
       setLoading(true);
       fetchProducts(12, `title:*${query}*`)
-        .then((data) => setResults(data))
+        .then((data) => {
+          setResults(data);
+          const currency = data[0]?.node.priceRange.minVariantPrice.currencyCode || 'USD';
+          trackSearch({
+            query,
+            currency,
+            contents: data.slice(0, 10).map((p) => ({
+              content_id: p.node.id,
+              content_type: 'product',
+              content_name: p.node.title,
+              price: parseFloat(p.node.priceRange.minVariantPrice.amount),
+              quantity: 1,
+            })),
+          });
+        })
         .catch(() => setResults([]))
         .finally(() => setLoading(false));
     }, 300);
