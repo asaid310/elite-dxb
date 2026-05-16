@@ -10,6 +10,7 @@ import BrandPage from "./pages/BrandPage.tsx";
 import CategoryPage from "./pages/CategoryPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
+import TikTokDebug from "./pages/TikTokDebug.tsx";
 
 const queryClient = new QueryClient();
 
