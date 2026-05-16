@@ -3,6 +3,7 @@ import { Search, X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { useCurrencyStore } from "@/stores/currencyStore";
+import { trackSearch } from "@/lib/tiktokPixel";
 
 interface SearchOverlayProps {
   isOpen: boolean;
