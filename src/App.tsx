@@ -32,6 +32,7 @@ const App = () => (
             <Route path="/brand/:brandName" element={<BrandPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/debug/tiktok" element={<TikTokDebug />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
