@@ -38,7 +38,21 @@ const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
     const timeout = setTimeout(() => {
       setLoading(true);
       fetchProducts(12, `title:*${query}*`)
-        .then((data) => setResults(data))
+        .then((data) => {
+          setResults(data);
+          const currency = data[0]?.priceRange.minVariantPrice.currencyCode || 'USD';
+          trackSearch({
+            query,
+            currency,
+            contents: data.slice(0, 10).map((p) => ({
+              content_id: p.id,
+              content_type: 'product',
+              content_name: p.title,
+              price: parseFloat(p.priceRange.minVariantPrice.amount),
+              quantity: 1,
+            })),
+          });
+        })
         .catch(() => setResults([]))
         .finally(() => setLoading(false));
     }, 300);
