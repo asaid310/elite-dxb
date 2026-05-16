@@ -20,14 +20,82 @@ export interface TikTokContent {
   price?: number;
 }
 
-const safeTrack = (event: string, params?: Record<string, unknown>) => {
+export interface TikTokDebugEntry {
+  ts: number;
+  event: string;
+  params?: Record<string, unknown>;
+  delivered: boolean;
+}
+
+const DEBUG_KEY = 'tt_debug_log';
+const DEBUG_FLAG = 'tt_debug';
+const MAX_ENTRIES = 100;
+
+export function isDebugEnabled(): boolean {
+  if (typeof window === 'undefined') return false;
   try {
-    if (typeof window !== 'undefined' && window.ttq?.track) {
-      window.ttq.track(event, params);
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('ttdebug') === '1') {
+      localStorage.setItem(DEBUG_FLAG, '1');
+      return true;
     }
+    if (url.searchParams.get('ttdebug') === '0') {
+      localStorage.removeItem(DEBUG_FLAG);
+      return false;
+    }
+    return localStorage.getItem(DEBUG_FLAG) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function logDebug(entry: TikTokDebugEntry) {
+  try {
+    const raw = sessionStorage.getItem(DEBUG_KEY);
+    const arr: TikTokDebugEntry[] = raw ? JSON.parse(raw) : [];
+    arr.unshift(entry);
+    sessionStorage.setItem(DEBUG_KEY, JSON.stringify(arr.slice(0, MAX_ENTRIES)));
+    window.dispatchEvent(new CustomEvent('tt-debug-log', { detail: entry }));
+    if (isDebugEnabled()) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `%c[TikTok] ${entry.event}`,
+        'color:#25F4EE;font-weight:bold',
+        entry.params,
+        entry.delivered ? '✓' : '✗ pixel not loaded'
+      );
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getDebugLog(): TikTokDebugEntry[] {
+  try {
+    const raw = sessionStorage.getItem(DEBUG_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function clearDebugLog() {
+  try {
+    sessionStorage.removeItem(DEBUG_KEY);
+    window.dispatchEvent(new CustomEvent('tt-debug-log', { detail: null }));
+  } catch {
+    /* ignore */
+  }
+}
+
+const safeTrack = (event: string, params?: Record<string, unknown>) => {
+  const delivered = typeof window !== 'undefined' && !!window.ttq?.track;
+  try {
+    if (delivered) window.ttq!.track(event, params);
   } catch (e) {
     console.warn('TikTok pixel track failed', e);
   }
+  logDebug({ ts: Date.now(), event, params, delivered });
 };
 
 const buildPayload = (
